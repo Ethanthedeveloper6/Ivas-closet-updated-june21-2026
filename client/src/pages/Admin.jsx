@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { api, currency, imgErr } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import { Stars } from '../components/ProductCard';
+import Avatar from '../components/Avatar';
 import '../styles/admin.css';
 
 export default function Admin() {
@@ -24,6 +24,12 @@ export default function Admin() {
     const [uploadImage, setUploadImage] = useState(null);
     const [uploadPreview, setUploadPreview] = useState(null);
     const fileRef = useRef();
+
+    const [editProduct, setEditProduct] = useState(null);
+    const [editForm, setEditForm] = useState(null);
+    const [editImage, setEditImage] = useState(null);
+    const [editPreview, setEditPreview] = useState(null);
+    const editFileRef = useRef();
 
     useEffect(() => {
         if (!user || user.role !== 'admin') {
@@ -49,7 +55,29 @@ export default function Admin() {
     };
 
     const totalRevenue = orders.reduce((s, o) => s + o.total, 0);
-    const lowStock = stock.filter(s => s.qty < 10).length;
+    const lowStockItems = stock.filter(s => s.qty < 10);
+    const lowStock = lowStockItems.length;
+
+    const topSellers = (() => {
+        const map = {};
+        orders.forEach(o => (o.items || []).forEach(it => {
+            if (!map[it.name]) map[it.name] = { name: it.name, qty: 0, revenue: 0 };
+            map[it.name].qty += it.qty;
+            map[it.name].revenue += it.price * it.qty;
+        }));
+        return Object.values(map).sort((a, b) => b.revenue - a.revenue).slice(0, 8);
+    })();
+
+    const salesByDay = (() => {
+        const map = {};
+        orders.forEach(o => {
+            const d = new Date(o.created_at).toLocaleDateString('en-KE', { month: 'short', day: 'numeric' });
+            map[d] = (map[d] || 0) + o.total;
+        });
+        return Object.entries(map).map(([day, total]) => ({ day, total })).slice(-14);
+    })();
+
+    const avgOrder = orders.length ? Math.round(totalRevenue / orders.length) : 0;
 
     const filteredOrders = orders.filter(o => {
         if (orderFilter !== 'all' && o.status !== orderFilter) return false;
@@ -108,8 +136,64 @@ export default function Admin() {
         reader.readAsDataURL(file);
     };
 
+    const openEdit = (p) => {
+        setEditProduct(p);
+        setEditForm({ name: p.name, category: p.category, gender: p.gender, price: p.price, old_price: p.old_price || '', description: p.description, badge: p.badge || '' });
+        setEditImage(null);
+        setEditPreview(null);
+    };
+
+    const handleEditImage = (file) => {
+        if (!file) return;
+        setEditImage(file);
+        const reader = new FileReader();
+        reader.onload = (e) => setEditPreview(e.target.result);
+        reader.readAsDataURL(file);
+    };
+
+    const handleEditSave = async () => {
+        if (!editForm.name || !editForm.price || !editForm.description) {
+            showToast('Name, price, and description are required', 'error');
+            return;
+        }
+        try {
+            const formData = new FormData();
+            Object.entries(editForm).forEach(([k, v]) => formData.append(k, v));
+            if (editImage) formData.append('image', editImage);
+            await api.updateProduct(editProduct.id, formData);
+            showToast('Product updated', 'success');
+            setEditProduct(null);
+            loadData();
+        } catch (err) {
+            showToast(err.message, 'error');
+        }
+    };
+
+    const handleDeleteProduct = async (p) => {
+        if (!window.confirm(`Delete "${p.name}"? This cannot be undone.`)) return;
+        try {
+            await api.deleteProduct(p.id);
+            showToast('Product deleted', 'success');
+            loadData();
+        } catch (err) {
+            showToast(err.message, 'error');
+        }
+    };
+
+    const handleDeleteOrder = async (o) => {
+        if (!window.confirm(`Delete order ${o.id}? This cannot be undone.`)) return;
+        try {
+            await api.deleteOrder(o.id);
+            setOrders(prev => prev.filter(x => x.id !== o.id));
+            showToast('Order deleted', 'success');
+        } catch (err) {
+            showToast(err.message, 'error');
+        }
+    };
+
     const navItems = [
         { key: 'dashboard', icon: '📊', label: 'Dashboard' },
+        { key: 'analytics', icon: '📈', label: 'Analytics' },
         { key: 'orders', icon: '📦', label: 'Orders' },
         { key: 'products', icon: '🏷️', label: 'Products' },
         { key: 'stock', icon: '📋', label: 'Stock' },
@@ -135,13 +219,15 @@ export default function Admin() {
                     ))}
                 </nav>
                 <div className="admin-sidebar-footer">
-                    <div className="admin-user-row">
-                        <div className="admin-avatar">A</div>
-                        <div>
-                            <div className="admin-name">Admin</div>
-                            <div className="admin-role">Administrator</div>
-                        </div>
-                    </div>
+                    <Link to="/profile" className="admin-user-row" title="View profile">
+                        <Avatar user={user} size={38} />
+                        {!collapsed && (
+                            <div>
+                                <div className="admin-name">{user.name}</div>
+                                <div className="admin-role">Administrator</div>
+                            </div>
+                        )}
+                    </Link>
                     <button className="admin-logout-btn" onClick={() => { logout(); navigate('/'); }}>Log Out</button>
                     <Link to="/" className="back-site-btn">← Back to Site</Link>
                 </div>
@@ -162,6 +248,13 @@ export default function Admin() {
                 {tab === 'dashboard' && (
                     <div className="admin-tab">
                         <h2 className="admin-section-title">Dashboard</h2>
+                        {lowStockItems.length > 0 && (
+                            <div className="low-stock-banner">
+                                <span className="lsb-icon">⚠️</span>
+                                <span><strong>{lowStockItems.length}</strong> item{lowStockItems.length > 1 ? 's' : ''} running low: {lowStockItems.slice(0, 4).map(s => `${s.name} (${s.qty})`).join(', ')}{lowStockItems.length > 4 ? '…' : ''}</span>
+                                <button className="lsb-action" onClick={() => setTab('stock')}>Manage Stock →</button>
+                            </div>
+                        )}
                         <div className="kpi-grid">
                             <div className="kpi-card kpi-revenue"><div className="kpi-icon">💰</div><div className="kpi-val">{currency(totalRevenue)}</div><div className="kpi-label">Total Revenue</div></div>
                             <div className="kpi-card kpi-orders"><div className="kpi-icon">📦</div><div className="kpi-val">{orders.length}</div><div className="kpi-label">Total Orders</div></div>
@@ -195,6 +288,57 @@ export default function Admin() {
                     </div>
                 )}
 
+                {tab === 'analytics' && (
+                    <div className="admin-tab">
+                        <h2 className="admin-section-title">Sales Analytics</h2>
+                        <div className="kpi-grid">
+                            <div className="kpi-card kpi-revenue"><div className="kpi-icon">💰</div><div className="kpi-val">{currency(totalRevenue)}</div><div className="kpi-label">Total Revenue</div></div>
+                            <div className="kpi-card kpi-orders"><div className="kpi-icon">📦</div><div className="kpi-val">{orders.length}</div><div className="kpi-label">Orders</div></div>
+                            <div className="kpi-card"><div className="kpi-icon">🧾</div><div className="kpi-val">{currency(avgOrder)}</div><div className="kpi-label">Avg. Order Value</div></div>
+                            <div className="kpi-card"><div className="kpi-icon">👥</div><div className="kpi-val">{customers.length}</div><div className="kpi-label">Customers</div></div>
+                        </div>
+                        <div className="admin-two-col">
+                            <div className="admin-card">
+                                <div className="card-header"><span className="card-title">Revenue by Day</span></div>
+                                {salesByDay.length === 0 ? (
+                                    <div style={{ padding: 24, textAlign: 'center', color: 'var(--text-muted)' }}>No sales data yet</div>
+                                ) : (
+                                    <div className="bar-chart">
+                                        {salesByDay.map((d, i) => {
+                                            const max = Math.max(...salesByDay.map(x => x.total));
+                                            return (
+                                                <div key={i} className="bar-col" title={`${d.day}: ${currency(d.total)}`}>
+                                                    <div className="bar-fill" style={{ height: `${max ? (d.total / max) * 100 : 0}%` }}></div>
+                                                    <span className="bar-label">{d.day}</span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                            <div className="admin-card">
+                                <div className="card-header"><span className="card-title">Top Sellers</span></div>
+                                {topSellers.length === 0 ? (
+                                    <div style={{ padding: 24, textAlign: 'center', color: 'var(--text-muted)' }}>No sales data yet</div>
+                                ) : (
+                                    <div className="rank-list">
+                                        {topSellers.map((t, i) => {
+                                            const max = topSellers[0].revenue;
+                                            return (
+                                                <div key={i} className="rank-row">
+                                                    <span className="rank-name">{i + 1}. {t.name}</span>
+                                                    <div className="rank-bar-wrap"><div className="rank-bar" style={{ width: `${max ? (t.revenue / max) * 100 : 0}%` }}></div></div>
+                                                    <span className="rank-val">{currency(t.revenue)} · {t.qty} sold</span>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {tab === 'orders' && (
                     <div className="admin-tab">
                         <div className="tab-header-row">
@@ -222,12 +366,15 @@ export default function Admin() {
                                             <td style={{ fontWeight: 700 }}>{currency(o.total)}</td>
                                             <td><span className={`order-status status-${o.status}`}>{o.status}</span></td>
                                             <td>
-                                                <select className="status-select" value={o.status} onChange={e => updateStatus(o.id, e.target.value)}>
-                                                    <option value="confirmed">Confirmed</option>
-                                                    <option value="shipped">Shipped</option>
-                                                    <option value="delivered">Delivered</option>
-                                                    <option value="cancelled">Cancelled</option>
-                                                </select>
+                                                <div className="row-actions">
+                                                    <select className="status-select" value={o.status} onChange={e => updateStatus(o.id, e.target.value)}>
+                                                        <option value="confirmed">Confirmed</option>
+                                                        <option value="shipped">Shipped</option>
+                                                        <option value="delivered">Delivered</option>
+                                                        <option value="cancelled">Cancelled</option>
+                                                    </select>
+                                                    <button className="icon-btn-danger" title="Delete order" onClick={() => handleDeleteOrder(o)}>🗑</button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
@@ -240,7 +387,10 @@ export default function Admin() {
 
                 {tab === 'products' && (
                     <div className="admin-tab">
-                        <h2 className="admin-section-title">Products ({products.length})</h2>
+                        <div className="tab-header-row">
+                            <h2 className="admin-section-title">Products ({products.length})</h2>
+                            <button className="btn-primary" onClick={() => setTab('upload')}>+ Add Product</button>
+                        </div>
                         <div className="admin-products-grid">
                             {products.map(p => (
                                 <div key={p.id} className="admin-product-card">
@@ -249,6 +399,10 @@ export default function Admin() {
                                         <div className="apc-name">{p.name}</div>
                                         <div className="apc-meta">{p.category} · {p.gender}{p.badge ? ` · ${p.badge}` : ''}</div>
                                         <div className="apc-price">{currency(p.price)}</div>
+                                        <div className="apc-actions">
+                                            <button className="apc-btn apc-edit" onClick={() => openEdit(p)}>Edit</button>
+                                            <button className="apc-btn apc-delete" onClick={() => handleDeleteProduct(p)}>Delete</button>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
@@ -402,6 +556,79 @@ export default function Admin() {
                     </div>
                 )}
             </div>
+
+            {editProduct && editForm && (
+                <div className="admin-modal-overlay" onClick={() => setEditProduct(null)}>
+                    <div className="admin-modal" onClick={e => e.stopPropagation()}>
+                        <div className="admin-modal-header">
+                            <h3>Edit Product</h3>
+                            <button className="modal-close" onClick={() => setEditProduct(null)}>✕</button>
+                        </div>
+                        <div className="form-group">
+                            <label className="form-label">Product Name</label>
+                            <input className="form-input" value={editForm.name} onChange={e => setEditForm({ ...editForm, name: e.target.value })} />
+                        </div>
+                        <div className="upload-row-2">
+                            <div className="form-group">
+                                <label className="form-label">Category</label>
+                                <select className="form-input" value={editForm.category} onChange={e => setEditForm({ ...editForm, category: e.target.value })}>
+                                    <option value="clothes">Clothing</option>
+                                    <option value="shoes">Shoes</option>
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Gender</label>
+                                <select className="form-input" value={editForm.gender} onChange={e => setEditForm({ ...editForm, gender: e.target.value })}>
+                                    <option value="men">Men</option>
+                                    <option value="women">Women</option>
+                                    <option value="children">Children</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="upload-row-2">
+                            <div className="form-group">
+                                <label className="form-label">Price (KSh)</label>
+                                <input type="number" className="form-input" value={editForm.price} onChange={e => setEditForm({ ...editForm, price: e.target.value })} />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Old Price (optional)</label>
+                                <input type="number" className="form-input" value={editForm.old_price} onChange={e => setEditForm({ ...editForm, old_price: e.target.value })} />
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <label className="form-label">Badge</label>
+                            <select className="form-input" value={editForm.badge} onChange={e => setEditForm({ ...editForm, badge: e.target.value })}>
+                                <option value="">None</option>
+                                <option value="new">New</option>
+                                <option value="sale">Sale</option>
+                                <option value="hot">Hot</option>
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label className="form-label">Description</label>
+                            <textarea className="form-input" rows="3" value={editForm.description} onChange={e => setEditForm({ ...editForm, description: e.target.value })}></textarea>
+                        </div>
+                        <div className="form-group">
+                            <label className="form-label">Replace Image (optional)</label>
+                            <div className="upload-dropzone" style={{ minHeight: 120 }} onClick={() => editFileRef.current?.click()}
+                                onDragOver={e => e.preventDefault()}
+                                onDrop={e => { e.preventDefault(); handleEditImage(e.dataTransfer.files[0]); }}
+                            >
+                                {(editPreview || editProduct.image) ? (
+                                    <img src={editPreview || editProduct.image} alt="Preview" onError={imgErr} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                ) : (
+                                    <div><div className="dz-icon">📸</div><div className="dz-text">Click to replace image</div></div>
+                                )}
+                                <input type="file" ref={editFileRef} hidden accept="image/*" onChange={e => handleEditImage(e.target.files[0])} />
+                            </div>
+                        </div>
+                        <div className="admin-modal-actions">
+                            <button className="btn-outline" onClick={() => setEditProduct(null)}>Cancel</button>
+                            <button className="btn-primary" onClick={handleEditSave}>Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -50,8 +50,24 @@ export function AuthProvider({ children }) {
         }
     };
 
+    const applyAuth = (data) => {
+        if (data.token) localStorage.setItem('ivas_token', data.token);
+        if (data.user) setUser(data.user);
+        return data.user;
+    };
+
+    const updateProfile = async (name) => applyAuth(await api.updateProfile(name));
+
+    const uploadAvatar = async (file) => {
+        const formData = new FormData();
+        formData.append('avatar', file);
+        return applyAuth(await api.uploadAvatar(formData));
+    };
+
+    const changePassword = (currentPassword, newPassword) => api.changePassword(currentPassword, newPassword);
+
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser }}>
+        <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser, updateProfile, uploadAvatar, changePassword }}>
             {children}
         </AuthContext.Provider>
     );

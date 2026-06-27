@@ -79,4 +79,12 @@ router.put('/:id/status', requireAdmin, (req, res) => {
     res.json(order);
 });
 
+router.delete('/:id', requireAdmin, (req, res) => {
+    const order = db.prepare('SELECT id FROM orders WHERE id = ?').get(req.params.id);
+    if (!order) return res.status(404).json({ error: 'Order not found' });
+
+    db.prepare('DELETE FROM orders WHERE id = ?').run(req.params.id);
+    res.json({ success: true, id: req.params.id });
+});
+
 module.exports = router;

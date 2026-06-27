@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useState, useEffect, useRef } from 'react';
+import Avatar from './Avatar';
 
 export default function Navbar() {
     const { user } = useAuth();
@@ -57,12 +58,8 @@ export default function Navbar() {
                         {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
                     </Link>
                     {user ? (
-                        <Link
-                            to={user.role === 'admin' ? '/admin' : '/loyalty'}
-                            className="nav-icon-btn user-avatar-btn"
-                            title={user.name}
-                        >
-                            {user.name.charAt(0).toUpperCase()}
+                        <Link to="/profile" className="user-avatar-link" title={`${user.name} — View profile`}>
+                            <Avatar user={user} size={38} />
                         </Link>
                     ) : (
                         <Link to="/login" className="btn-nav-login">Log In</Link>
@@ -80,7 +77,14 @@ export default function Navbar() {
                 {links.map(l => (
                     <Link key={l.to} to={l.to}>{l.label}</Link>
                 ))}
-                {!user && <Link to="/login">Log In / Sign Up</Link>}
+                {user ? (
+                    <>
+                        <Link to="/profile">👤 My Profile</Link>
+                        {user.role === 'admin' && <Link to="/admin">🛠 Admin</Link>}
+                    </>
+                ) : (
+                    <Link to="/login">Log In / Sign Up</Link>
+                )}
                 <Link to="/cart">🛒 Cart</Link>
             </div>
         </>

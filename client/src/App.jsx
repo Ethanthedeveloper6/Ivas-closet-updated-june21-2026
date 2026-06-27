@@ -7,6 +7,7 @@ import About from './pages/About';
 import Loyalty from './pages/Loyalty';
 import Contact from './pages/Contact';
 import Admin from './pages/Admin';
+import Profile from './pages/Profile';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ToastContainer from './components/ToastContainer';
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/loyalty" element={<Loyalty />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="/admin" element={<Admin />} />
             </Routes>
             {!isAdminPage && <Footer />}

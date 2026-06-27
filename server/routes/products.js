@@ -73,4 +73,46 @@ router.post('/', requireAdmin, upload.single('image'), (req, res) => {
     res.status(201).json(product);
 });
 
+router.put('/:id', requireAdmin, upload.single('image'), (req, res) => {
+    const product = db.prepare('SELECT * FROM products WHERE id = ?').get(req.params.id);
+    if (!product) return res.status(404).json({ error: 'Product not found' });
+
+    const { name, category, gender, price, old_price, description, badge } = req.body;
+    const image = req.file ? `/images/${req.file.filename}` : (req.body.image_url || product.image);
+
+    db.prepare(`
+    UPDATE products
+    SET name = ?, category = ?, gender = ?, price = ?, old_price = ?, image = ?, badge = ?, description = ?
+    WHERE id = ?
+  `).run(
+        name ?? product.name,
+        category ?? product.category,
+        gender ?? product.gender,
+        price !== undefined ? parseInt(price) : product.price,
+        old_price !== undefined ? (old_price ? parseInt(old_price) : null) : product.old_price,
+        image,
+        badge !== undefined ? (badge || null) : product.badge,
+        description ?? product.description,
+        req.params.id
+    );
+
+    if (req.body.stock_qty !== undefined) {
+        const qty = parseInt(req.body.stock_qty) || 0;
+        const existing = db.prepare('SELECT product_id FROM stock WHERE product_id = ?').get(req.params.id);
+        if (existing) db.prepare('UPDATE stock SET qty = ? WHERE product_id = ?').run(qty, req.params.id);
+        else db.prepare('INSERT INTO stock (product_id, qty, active) VALUES (?, ?, 1)').run(req.params.id, qty);
+    }
+
+    const updated = db.prepare('SELECT * FROM products WHERE id = ?').get(req.params.id);
+    res.json(updated);
+});
+
+router.delete('/:id', requireAdmin, (req, res) => {
+    const product = db.prepare('SELECT id FROM products WHERE id = ?').get(req.params.id);
+    if (!product) return res.status(404).json({ error: 'Product not found' });
+
+    db.prepare('DELETE FROM products WHERE id = ?').run(req.params.id);
+    res.json({ success: true, id: parseInt(req.params.id) });
+});
+
 module.exports = router;
