@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin — IVAS Closet</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="admin.css" />
+</head>
+
+<body class="admin-body">
+
+    <!-- ADMIN SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar">
+        <div class="admin-logo"><img src="images/logo.jpg" alt="IVAS Admin Logo" class="logo-img-admin" /></div>
+        <nav class="admin-nav">
+            <button class="admin-nav-item active" onclick="showTab('dashboard',this)">
+                <span class="ani">📊</span> Dashboard
+            </button>
+            <button class="admin-nav-item" onclick="showTab('orders',this)">
+                <span class="ani">📦</span> Orders
+            </button>
+            <button class="admin-nav-item" onclick="showTab('products',this)">
+                <span class="ani">👕</span> Products
+            </button>
+            <button class="admin-nav-item" onclick="showTab('stock',this)">
+                <span class="ani">📋</span> Stock
+            </button>
+            <button class="admin-nav-item" onclick="showTab('upload',this)">
+                <span class="ani">📤</span> Upload Product
+            </button>
+            <button class="admin-nav-item" onclick="showTab('customers',this)">
+                <span class="ani">👥</span> Customers
+            </button>
+        </nav>
+        <div class="admin-sidebar-footer">
+            <div class="admin-user-row">
+                <div class="admin-avatar">A</div>
+                <div>
+                    <div class="admin-name">Admin</div>
+                    <div class="admin-role">Super Admin</div>
+                </div>
+            </div>
+            <button class="admin-logout-btn" onclick="logout()">Log Out</button>
+            <a href="index.html" class="back-site-btn">← View Site</a>
+        </div>
+    </aside>
+
+    <!-- ADMIN CONTENT -->
+    <div class="admin-content">
+        <!-- TOP BAR -->
+        <div class="admin-topbar">
+            <div class="admin-topbar-left">
+                <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+                <div class="admin-breadcrumb" id="adminBreadcrumb">Dashboard</div>
+            </div>
+            <div class="admin-topbar-right">
+                <div class="admin-date" id="adminDate"></div>
+                <a href="shop.html" class="btn-accent" style="font-size:0.82rem;padding:8px 16px;">Visit Shop →</a>
+            </div>
+        </div>
+
+        <!-- ===== DASHBOARD TAB ===== -->
+        <div id="tab-dashboard" class="admin-tab">
+            <h2 class="admin-section-title">Dashboard Overview</h2>
+
+            <div class="kpi-grid" id="kpiGrid"></div>
+
+            <div class="admin-two-col">
+                <!-- RECENT ORDERS -->
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Recent Orders</h3>
+                        <button class="card-action" onclick="showTab('orders',null)">View All →</button>
+                    </div>
+                    <div id="dashRecentOrders"></div>
+                </div>
+                <!-- TOP PRODUCTS -->
+                <div class="admin-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Top Products</h3>
+                    </div>
+                    <div id="dashTopProducts"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== ORDERS TAB ===== -->
+        <div id="tab-orders" class="admin-tab" style="display:none;">
+            <div class="tab-header-row">
+                <h2 class="admin-section-title">Orders</h2>
+                <div class="tab-actions">
+                    <input type="text" class="form-input" id="orderSearch" placeholder="Search orders…"
+                        oninput="renderOrders()" style="width:220px;padding:9px 14px;" />
+                    <select class="form-input" id="orderStatusFilter" onchange="renderOrders()"
+                        style="width:160px;padding:9px 14px;">
+                        <option value="all">All Status</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+            <div class="admin-card">
+                <div id="ordersTable"></div>
+            </div>
+        </div>
+
+        <!-- ===== PRODUCTS TAB ===== -->
+        <div id="tab-products" class="admin-tab" style="display:none;">
+            <div class="tab-header-row">
+                <h2 class="admin-section-title">Products</h2>
+            </div>
+            <div class="admin-products-grid" id="adminProductsGrid"></div>
+        </div>
+
+        <!-- ===== STOCK TAB ===== -->
+        <div id="tab-stock" class="admin-tab" style="display:none;">
+            <div class="tab-header-row">
+                <h2 class="admin-section-title">Stock Management</h2>
+            </div>
+            <div class="admin-card">
+                <div id="stockTable"></div>
+            </div>
+        </div>
+
+        <!-- ===== UPLOAD TAB ===== -->
+        <div id="tab-upload" class="admin-tab" style="display:none;">
+            <h2 class="admin-section-title">Upload New Product</h2>
+            <div class="upload-layout">
+                <div class="admin-card upload-form-card">
+                    <div class="form-group">
+                        <label class="form-label">Product Name *</label>
+                        <input type="text" id="upName" class="form-input" placeholder="e.g. Classic White Tee" />
+                    </div>
+                    <div class="upload-row-2">
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select id="upCat" class="form-input">
+                                <option value="shoes">Shoes</option>
+                                <option value="clothes">Clothing</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Gender</label>
+                            <select id="upGender" class="form-input">
+                                <option value="men">Men</option>
+                                <option value="women">Women</option>
+                                <option value="children">Children</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="upload-row-2">
+                        <div class="form-group">
+                            <label class="form-label">Price (KSh) *</label>
+                            <input type="number" id="upPrice" class="form-input" placeholder="3500" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Old Price (optional)</label>
+                            <input type="number" id="upOldPrice" class="form-input" placeholder="4500" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description *</label>
+                        <textarea id="upDesc" class="form-input" rows="3"
+                            placeholder="Describe the product…"></textarea>
+                    </div>
+                    <div class="upload-row-2">
+                        <div class="form-group">
+                            <label class="form-label">Badge</label>
+                            <select id="upBadge" class="form-input">
+                                <option value="">None</option>
+                                <option value="new">New</option>
+                                <option value="sale">Sale</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Initial Stock</label>
+                            <input type="number" id="upStock" class="form-input" placeholder="20" />
+                        </div>
+                    </div>
+
+                    <!-- IMAGE UPLOAD -->
+                    <div class="form-group">
+                        <label class="form-label">Product Image *</label>
+                        <div class="upload-dropzone" id="dropzone" onclick="document.getElementById('imgFile').click()"
+                            ondragover="dragover(event)" ondrop="drop(event)">
+                            <div id="dropzoneContent">
+                                <div class="dz-icon">📸</div>
+                                <div class="dz-text">Click or drag & drop image here</div>
+                                <div class="dz-hint">PNG, JPG, WEBP · Max 5MB</div>
+                            </div>
+                            <img id="imagePreview"
+                                style="display:none;width:100%;height:100%;object-fit:cover;border-radius:var(--radius-md);"
+                                alt="Preview" />
+                        </div>
+                        <input type="file" id="imgFile" accept="image/*" style="display:none;"
+                            onchange="previewImage(this)" />
+                    </div>
+
+                    <button class="btn-primary" style="width:100%;justify-content:center;" onclick="uploadProduct()">Add
+                        Product to Store →</button>
+                </div>
+
+                <!-- PREVIEW -->
+                <div class="upload-preview-panel">
+                    <h3 style="font-size:1rem;font-weight:700;margin-bottom:16px;color:var(--text-secondary);">Live
+                        Preview</h3>
+                    <div class="product-card" id="uploadPreviewCard" style="max-width:280px;">
+                        <div class="product-img-wrap">
+                            <img id="prevImg"
+                                src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&q=80"
+                                alt="Preview" onerror="imgErr(this)" />
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category" id="prevCat">clothes · men</div>
+                            <div class="product-name" id="prevName">Product Name</div>
+                            <div class="product-stars">★★★★★</div>
+                            <div class="product-price-row">
+                                <span class="product-price" id="prevPrice">KSh 0</span>
+                                <button class="btn-cart">Add →</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== CUSTOMERS TAB ===== -->
+        <div id="tab-customers" class="admin-tab" style="display:none;">
+            <h2 class="admin-section-title">Customers</h2>
+            <div class="admin-card">
+                <div id="customersTable"></div>
+            </div>
+        </div>
+
+    </div><!-- end admin-content -->
+
+    <!-- ORDER DETAIL MODAL -->
+    <div class="modal-overlay" id="orderModal">
+        <div class="modal" style="position:relative;max-width:560px;">
+            <button class="modal-close"
+                onclick="document.getElementById('orderModal').classList.remove('open')">✕</button>
+            <div id="orderModalContent"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // ===== ADMIN AUTH GUARD =====
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = getCurrentUser();
+            if (!user || user.role !== 'admin') {
+                alert('Admin access required. Please log in as admin.');
+                window.location.href = 'login.html';
+                return;
+            }
+            document.getElementById('adminDate').textContent = new Date().toLocaleDateString('en-KE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            renderDashboard();
+            setupUploadListeners();
+        });
+
+        // ===== TAB NAVIGATION =====
+        function showTab(name, btn) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.style.display = 'none');
+            document.querySelectorAll('.admin-nav-item').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + name).style.display = 'block';
+            if (btn) btn.classList.add('active');
+            else document.querySelectorAll('.admin-nav-item').forEach(b => { if (b.textContent.toLowerCase().includes(name)) b.classList.add('active'); });
+            document.getElementById('adminBreadcrumb').textContent = name.charAt(0).toUpperCase() + name.slice(1);
+            // Lazy render
+            if (name === 'orders') renderOrders();
+            if (name === 'products') renderAdminProducts();
+            if (name === 'stock') renderStock();
+            if (name === 'customers') renderCustomers();
+        }
+
+        function toggleSidebar() {
+            document.getElementById('adminSidebar').classList.toggle('collapsed');
+        }
+
+        // ===== DASHBOARD =====
+        function renderDashboard() {
+            const orders = getOrders();
+            const totalRevenue = orders.reduce((s, o) => s + o.total, 0);
+            const stock = getStock();
+            const lowStock = Object.values(stock).filter(s => s.qty < 5).length;
+
+            document.getElementById('kpiGrid').innerHTML = `
+    <div class="kpi-card kpi-revenue">
+      <div class="kpi-icon">💰</div>
+      <div class="kpi-val">${currency(totalRevenue)}</div>
+      <div class="kpi-label">Total Revenue</div>
+    </div>
+    <div class="kpi-card kpi-orders">
+      <div class="kpi-icon">📦</div>
+      <div class="kpi-val">${orders.length}</div>
+      <div class="kpi-label">Total Orders</div>
+    </div>
+    <div class="kpi-card kpi-products">
+      <div class="kpi-icon">👕</div>
+      <div class="kpi-val">${PRODUCTS.length}</div>
+      <div class="kpi-label">Products Listed</div>
+    </div>
+    <div class="kpi-card kpi-stock">
+      <div class="kpi-icon">⚠️</div>
+      <div class="kpi-val">${lowStock}</div>
+      <div class="kpi-label">Low Stock Items</div>
+    </div>
+  `;
+
+            // Recent orders
+            const recent = [...orders].reverse().slice(0, 5);
+            document.getElementById('dashRecentOrders').innerHTML = recent.length ? recent.map(o => `
+    <div class="mini-order-row" onclick="openOrderModal('${o.id}')">
+      <div>
+        <div style="font-size:0.88rem;font-weight:700;">${o.id}</div>
+        <div style="font-size:0.78rem;color:var(--text-muted);">${o.customerName}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-weight:700;font-size:0.9rem;">${currency(o.total)}</div>
+        <span class="order-status status-${o.status}">${o.status}</span>
+      </div>
+    </div>
+  `).join('') : '<div style="color:var(--text-muted);text-align:center;padding:24px;">No orders yet</div>';
+
+            // Top products
+            const topProds = PRODUCTS.slice(0, 5);
+            document.getElementById('dashTopProducts').innerHTML = topProds.map(p => `
+    <div class="mini-order-row">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <img src="${p.image}" style="width:36px;height:36px;border-radius:var(--radius-sm);object-fit:cover;" onerror="imgErr(this)"/>
+        <div>
+          <div style="font-size:0.88rem;font-weight:700;">${p.name}</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);">${p.category}</div>
+        </div>
+      </div>
+      <div style="font-weight:700;font-size:0.9rem;">${currency(p.price)}</div>
+    </div>
+  `).join('');
+        }
+
+        // ===== ORDERS =====
+        function renderOrders() {
+            let orders = [...getOrders()].reverse();
+            const q = document.getElementById('orderSearch')?.value.toLowerCase() || '';
+            const st = document.getElementById('orderStatusFilter')?.value || 'all';
+            if (q) orders = orders.filter(o => o.id.toLowerCase().includes(q) || o.customerName.toLowerCase().includes(q) || o.customerEmail.toLowerCase().includes(q));
+            if (st !== 'all') orders = orders.filter(o => o.status === st);
+
+            const el = document.getElementById('ordersTable');
+            if (!orders.length) { el.innerHTML = '<div style="text-align:center;padding:48px;color:var(--text-muted);">No orders found</div>'; return; }
+
+            el.innerHTML = `
+    <table class="admin-table">
+      <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+      <tbody>${orders.map(o => `
+        <tr>
+          <td><strong>${o.id}</strong></td>
+          <td><div>${o.customerName}</div><div style="font-size:0.78rem;color:var(--text-muted);">${o.customerEmail}</div></td>
+          <td>${o.items.length} item(s)</td>
+          <td><strong>${currency(o.total)}</strong></td>
+          <td>
+            <select class="status-select status-${o.status}" onchange="updateOrderStatus('${o.id}', this.value)">
+              <option ${o.status === 'confirmed' ? 'selected' : ''}>confirmed</option>
+              <option ${o.status === 'shipped' ? 'selected' : ''}>shipped</option>
+              <option ${o.status === 'delivered' ? 'selected' : ''}>delivered</option>
+              <option ${o.status === 'cancelled' ? 'selected' : ''}>cancelled</option>
+            </select>
+          </td>
+          <td style="font-size:0.82rem;color:var(--text-muted);">${new Date(o.date).toLocaleDateString('en-KE')}</td>
+          <td><button class="table-action-btn" onclick="openOrderModal('${o.id}')">View</button></td>
+        </tr>
+      `).join('')}</tbody>
+    </table>
+  `;
+        }
+
+        function updateOrderStatus(id, status) {
+            const orders = getOrders();
+            const o = orders.find(o => o.id === id);
+            if (o) { o.status = status; saveOrders(orders); showToast('Order status updated.', 'success'); }
+        }
+
+        function openOrderModal(id) {
+            const o = getOrders().find(o => o.id === id);
+            if (!o) return;
+            document.getElementById('orderModalContent').innerHTML = `
+    <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:4px;">${o.id}</h2>
+    <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:20px;">${new Date(o.date).toLocaleString('en-KE')}</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+      <div><strong>Customer</strong><br>${o.customerName}</div>
+      <div><strong>Email</strong><br>${o.customerEmail}</div>
+      <div><strong>Phone</strong><br>${o.shipping.phone || '—'}</div>
+      <div><strong>Address</strong><br>${o.shipping.address}</div>
+    </div>
+    <div style="font-weight:700;margin-bottom:10px;">Items:</div>
+    ${o.items.map(i => `<div style="display:flex;justify-content:space-between;font-size:0.9rem;padding:6px 0;border-bottom:1px solid var(--border);"><span>${i.name} (${i.size}) ×${i.qty}</span><span>${currency(i.price * i.qty)}</span></div>`).join('')}
+    <div style="display:flex;justify-content:space-between;font-weight:800;font-size:1.1rem;margin-top:16px;"><span>Total</span><span>${currency(o.total)}</span></div>
+  `;
+            document.getElementById('orderModal').classList.add('open');
+            document.getElementById('orderModal').onclick = e => { if (e.target === document.getElementById('orderModal')) document.getElementById('orderModal').classList.remove('open'); };
+        }
+
+        // ===== PRODUCTS =====
+        function renderAdminProducts() {
+            document.getElementById('adminProductsGrid').innerHTML = PRODUCTS.map(p => `
+    <div class="admin-product-card">
+      <img src="${p.image}" alt="${p.name}" onerror="imgErr(this)"/>
+      <div class="apc-info">
+        <div class="apc-name">${p.name}</div>
+        <div class="apc-meta">${p.category} · ${p.gender}</div>
+        <div class="apc-price">${currency(p.price)}</div>
+      </div>
+      <div class="apc-actions">
+        <span class="order-status status-confirmed">Active</span>
+      </div>
+    </div>
+  `).join('');
+        }
+
+        // ===== STOCK =====
+        function renderStock() {
+            const stock = getStock();
+            document.getElementById('stockTable').innerHTML = `
+    <table class="admin-table">
+      <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock Qty</th><th>Status</th><th>Update</th></tr></thead>
+      <tbody>${PRODUCTS.map(p => {
+                const s = stock[p.id] || { qty: 0, active: true };
+                return `
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:10px;">
+              <img src="${p.image}" style="width:40px;height:40px;border-radius:var(--radius-sm);object-fit:cover;" onerror="imgErr(this)"/>
+              <strong>${p.name}</strong>
+            </div></td>
+            <td>${p.category}</td>
+            <td>${currency(p.price)}</td>
+            <td>
+              <input type="number" id="stock-${p.id}" value="${s.qty}" min="0" class="form-input" style="width:80px;padding:6px 10px;"/>
+            </td>
+            <td><span class="order-status ${s.qty > 5 ? 'status-delivered' : s.qty > 0 ? 'status-shipped' : 'status-cancelled'}">${s.qty > 5 ? 'In Stock' : s.qty > 0 ? 'Low Stock' : 'Out of Stock'}</span></td>
+            <td><button class="table-action-btn" onclick="updateStock(${p.id})">Save</button></td>
+          </tr>
+        `;
+            }).join('')}</tbody>
+    </table>
+  `;
+        }
+
+        function updateStock(id) {
+            const stock = getStock();
+            const val = parseInt(document.getElementById('stock-' + id).value);
+            if (isNaN(val) || val < 0) return;
+            stock[id] = stock[id] || { active: true };
+            stock[id].qty = val;
+            saveStock(stock);
+            showToast('Stock updated!', 'success');
+            renderStock();
+        }
+
+        // ===== UPLOAD =====
+        function setupUploadListeners() {
+            ['upName', 'upCat', 'upGender', 'upPrice'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', updatePreview);
+            });
+        }
+        function updatePreview() {
+            document.getElementById('prevName').textContent = document.getElementById('upName').value || 'Product Name';
+            document.getElementById('prevCat').textContent = (document.getElementById('upCat').value || '') + ' · ' + (document.getElementById('upGender').value || '');
+            const p = parseInt(document.getElementById('upPrice').value);
+            document.getElementById('prevPrice').textContent = isNaN(p) ? 'KSh 0' : currency(p);
+        }
+        function previewImage(input) {
+            if (!input.files[0]) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                document.getElementById('imagePreview').src = e.target.result;
+                document.getElementById('imagePreview').style.display = 'block';
+                document.getElementById('dropzoneContent').style.display = 'none';
+                document.getElementById('prevImg').src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+        function dragover(e) { e.preventDefault(); document.getElementById('dropzone').classList.add('dragging'); }
+        function drop(e) {
+            e.preventDefault();
+            document.getElementById('dropzone').classList.remove('dragging');
+            const f = e.dataTransfer.files[0];
+            if (f && f.type.startsWith('image/')) {
+                const dt = new DataTransfer(); dt.items.add(f);
+                const inp = document.getElementById('imgFile'); inp.files = dt.files;
+                previewImage(inp);
+            }
+        }
+
+        function uploadProduct() {
+            const name = document.getElementById('upName').value.trim();
+            const price = parseInt(document.getElementById('upPrice').value);
+            const desc = document.getElementById('upDesc').value.trim();
+            if (!name || !price || !desc) { showToast('Please fill in all required fields.', 'error'); return; }
+            const newProduct = {
+                id: Date.now(),
+                name,
+                category: document.getElementById('upCat').value,
+                gender: document.getElementById('upGender').value,
+                price,
+                oldPrice: parseInt(document.getElementById('upOldPrice').value) || null,
+                description: desc,
+                badge: document.getElementById('upBadge').value || null,
+                rating: 5,
+                image: document.getElementById('imagePreview').src || 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&q=80',
+            };
+            PRODUCTS.unshift(newProduct);
+            const stock = getStock();
+            stock[newProduct.id] = { qty: parseInt(document.getElementById('upStock').value) || 10, active: true };
+            saveStock(stock);
+            showToast(`"${newProduct.name}" added successfully! 🎉`, 'success');
+            // Reset
+            ['upName', 'upPrice', 'upOldPrice', 'upDesc', 'upStock'].forEach(id => { document.getElementById(id).value = ''; });
+            document.getElementById('upBadge').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('dropzoneContent').style.display = '';
+            updatePreview();
+        }
+
+        // ===== CUSTOMERS =====
+        function renderCustomers() {
+            const users = getUsers();
+            const el = document.getElementById('customersTable');
+            if (!users.length) { el.innerHTML = '<div style="text-align:center;padding:48px;color:var(--text-muted);">No registered customers yet</div>'; return; }
+            el.innerHTML = `
+    <table class="admin-table">
+      <thead><tr><th>Name</th><th>Email</th><th>Loyalty Points</th><th>Joined</th><th>Orders</th></tr></thead>
+      <tbody>${users.map(u => {
+                const orders = getOrders().filter(o => o.userId === u.id);
+                const pts = u.points || 0;
+                return `<tr>
+          <td><strong>${u.name}</strong></td>
+          <td>${u.email}</td>
+          <td><span style="background:var(--brand-light);color:var(--brand-accent);padding:4px 8px;border-radius:var(--radius-full);font-weight:700;font-size:0.8rem;">${pts} pts</span></td>
+          <td>${new Date(u.joined).toLocaleDateString('en-KE')}</td>
+          <td>${orders.length}</td>
+        </tr>`;
+            }).join('')}</tbody>
+    </table>
+  `;
+        }
+    </script>
+</body>
+
+</html>

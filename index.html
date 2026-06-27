@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IVAS Closet — Premium Fashion for Every Moment</title>
+  <meta name="description"
+    content="Discover the finest shoes and clothing at IVAS Closet. Curated fashion for men, women, and children with premium quality and style." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="home.css" />
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo"><img src="images/logo.jpg" alt="IVAS Closet Logo" class="logo-img" /></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="shop.html">Shop</a>
+      <a href="loyalty.html">Rewards</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <a href="cart.html" class="nav-icon-btn" title="Cart">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <path d="M16 10a4 4 0 01-8 0" />
+        </svg>
+        <span class="cart-count" style="display:none;">0</span>
+      </a>
+      <a href="login.html" id="navLoginBtn" class="btn-nav-login">Log In</a>
+      <button id="navUserBtn" class="nav-icon-btn user-avatar-btn" style="display:none;"
+        onclick="window.location.href='account.html'">U</button>
+    </div>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="shop.html">Shop</a>
+    <a href="loyalty.html">Rewards</a>
+    <a href="contact.html">Contact</a>
+    <a href="login.html">Log In / Sign Up</a>
+    <a href="cart.html">🛒 Cart</a>
+  </div>
+
+  <div class="page-wrap">
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <div class="hero-tag">New Season 2026</div>
+        <h1 class="hero-title">Dress to<br><em>Impress.</em></h1>
+        <p class="hero-sub">Curated fashion for those who appreciate quality — from premium footwear to handpicked
+          clothing, for every moment of your life.</p>
+        <div class="hero-cta">
+          <a href="shop.html" class="btn-primary">Shop the Collection →</a>
+          <a href="about.html" class="btn-secondary">Our Story</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><span class="stat-num">2K+</span><span class="stat-label">Happy Customers</span></div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat"><span class="stat-num">500+</span><span class="stat-label">Styles Available</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat"><span class="stat-num">100%</span><span class="stat-label">Quality Assured</span></div>
+        </div>
+      </div>
+      <div class="hero-image-wrap">
+        <div class="hero-bg-blob"></div>
+        <img src="images/hero_banner.png" alt="IVAS Closet Fashion" class="hero-img" onerror="imgErr(this)" />
+        <div class="hero-float-card">
+          <span class="float-icon">🔥</span>
+          <div>
+            <div class="float-title">Trending Now</div>
+            <div class="float-sub">Pearl Heel Collection</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRENDING PRODUCTS -->
+    <section class="section" id="trending">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">What's Hot</span>
+          <h2 class="section-title">Trending Products</h2>
+          <p class="section-sub">Our most-loved pieces right now — chosen by the IVAS community.</p>
+        </div>
+        <div class="products-grid" id="trendingGrid"></div>
+        <div style="text-align:center;margin-top:40px;">
+          <a href="shop.html" class="btn-secondary">View All Products</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORIES BANNER -->
+    <section class="categories-section section-sm">
+      <div class="container">
+        <div class="categories-grid">
+          <a href="shop.html?cat=shoes&gender=men" class="cat-card cat-men">
+            <div class="cat-inner">
+              <div class="cat-icon">👟</div>
+              <h3>Men's Shoes</h3>
+              <p>From sneakers to boots</p>
+              <span class="cat-arrow">→</span>
+            </div>
+          </a>
+          <a href="shop.html?cat=clothes&gender=women" class="cat-card cat-women">
+            <div class="cat-inner">
+              <div class="cat-icon">👗</div>
+              <h3>Women's Clothing</h3>
+              <p>Elegant & contemporary</p>
+              <span class="cat-arrow">→</span>
+            </div>
+          </a>
+          <a href="shop.html?cat=shoes&gender=children" class="cat-card cat-kids">
+            <div class="cat-inner">
+              <div class="cat-icon">🎒</div>
+              <h3>Kids' Collection</h3>
+              <p>Fun, durable & cute</p>
+              <span class="cat-arrow">→</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section testimonials-section" id="testimonials">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Customer Love</span>
+          <h2 class="section-title">What Our Customers Say</h2>
+          <p class="section-sub">Real stories from real people who found their perfect look at IVAS Closet.</p>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"I ordered the Pearl Heel and they were absolutely stunning! The delivery was
+              quick and the packaging was premium. IVAS Closet is now my go-to for shoes."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">A</div>
+              <div>
+                <div class="author-name">Amina Osei</div>
+                <div class="author-loc">Nairobi, Kenya</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card featured">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"The Tailored Blazer fits like it was made for me. Quality is exceptional — far
+              better than I expected at this price point. Highly recommend IVAS Closet!"</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">D</div>
+              <div>
+                <div class="author-name">David Kimani</div>
+                <div class="author-loc">Mombasa, Kenya</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"Bought the Kids Denim Set for my daughter's birthday and she absolutely loves
+              it! Great quality, true to size, and arrived beautifully wrapped. Will be back!"</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">F</div>
+              <div>
+                <div class="author-name">Fatima Njoroge</div>
+                <div class="author-loc">Kisumu, Kenya</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"I bought the Premium Knit Wear and the material is incredible! After several
+              washes, it still looks brand new. IVAS Closet never disappoints."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">S</div>
+              <div>
+                <div class="author-name">Samuel Ochieng</div>
+                <div class="author-loc">Nakuru, Kenya</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p class="testimonial-text">"Absolutely in love with the fast shipping and the beautiful presentation. It
+              felt like receiving a gift. Highly recommend the shoe collection!"</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">G</div>
+              <div>
+                <div class="author-name">Grace Mutua</div>
+                <div class="author-loc">Eldoret, Kenya</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-rating-bar">
+          <div class="rating-summary">
+            <div class="rating-big">4.9</div>
+            <div>
+              <div class="rating-stars-big">★★★★★</div>
+              <div class="rating-label">Based on 234 reviews</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- end page-wrap -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo"><img src="images/logo.jpg" alt="IVAS Closet Logo" class="logo-img" /></div>
+        <p class="footer-desc">Premium fashion curated for the modern lifestyle. Quality you can see, comfort you can
+          feel.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" title="Instagram">📸</a>
+          <a href="#" class="social-btn" title="Facebook">👥</a>
+          <a href="#" class="social-btn" title="Twitter">🐦</a>
+          <a href="#" class="social-btn" title="TikTok">🎵</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="about.html">About Us</a>
+          <a href="shop.html">Shop</a>
+          <a href="loyalty.html">Rewards</a>
+          <a href="contact.html">Contact</a>
+          <a href="cart.html">Cart</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <div class="footer-links">
+          <a href="#">Shipping Policy</a>
+          <a href="#">Returns & Exchanges</a>
+          <a href="#">Size Guide</a>
+          <a href="#">FAQ</a>
+          <a href="#">Privacy Policy</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Opening Hours</h4>
+        <div class="footer-links">
+          <span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Mon – Fri: 9am – 8pm</span>
+          <span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Saturday: 9am – 6pm</span>
+          <span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Sunday: Closed</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <div class="footer-contact-item">
+          <div class="footer-contact-icon">📱</div>
+          <div><a href="https://wa.me/254700000000" style="color:rgba(255,255,255,0.7)">WhatsApp Us</a><br><small>+254
+              700 000 000</small></div>
+        </div>
+        <div class="footer-contact-item">
+          <div class="footer-contact-icon">📞</div>
+          <div><a href="tel:+254700000000" style="color:rgba(255,255,255,0.7)">Call Us</a><br><small>Mon–Sat,
+              9am–6pm</small></div>
+        </div>
+        <div class="footer-contact-item">
+          <div class="footer-contact-icon">✉️</div>
+          <div><a href="mailto:hello@ivascloset.com" style="color:rgba(255,255,255,0.7)">hello@ivascloset.com</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 IVAS Closet. All rights reserved.</span>
+      <span>Made with ❤️ in Kenya</span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Render trending (first 6 products)
+      const grid = document.getElementById('trendingGrid');
+      const trending = PRODUCTS.slice(0, 6);
+      grid.innerHTML = trending.map(p => `
+    <div class="product-card" onclick="window.location.href='shop.html'">
+      <div class="product-img-wrap">
+        <img src="${p.image}" alt="${p.name}" onerror="imgErr(this)" loading="lazy"/>
+        ${p.badge ? `<span class="product-badge badge-${p.badge}">${p.badge}</span>` : ''}
+        <div class="product-actions">
+          <button class="product-action-btn" title="Wishlist" onclick="event.stopPropagation();showToast('Added to wishlist ♡','success')">♡</button>
+          <button class="product-action-btn" title="Quick view" onclick="event.stopPropagation();window.location.href='shop.html'">👁</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-category">${p.category} · ${p.gender}</div>
+        <div class="product-name">${p.name}</div>
+        ${renderStars(p.rating)}
+        <div class="product-price-row">
+          <div>
+            <span class="product-price">${currency(p.price)}</span>
+            ${p.oldPrice ? `<span class="product-price-old">${currency(p.oldPrice)}</span>` : ''}
+          </div>
+          <button class="btn-cart" onclick="event.stopPropagation();addToCart(${p.id})">Add →</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+    });
+  </script>
+</body>
+
+</html>

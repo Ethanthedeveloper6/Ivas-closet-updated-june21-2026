@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+server/node_modules/
+client/node_modules/
+
+# Database
+server/*.db
+server/*.db-wal
+server/*.db-shm
+
+# Build output
+client/dist/
+
+# Environment
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*

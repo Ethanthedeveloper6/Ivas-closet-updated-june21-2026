@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop — IVAS Closet</title>
+    <meta name="description"
+        content="Shop the full IVAS Closet collection. Filter by shoes, clothing, men, women, and children." />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="shop.css" />
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo"><img src="images/logo.jpg" alt="IVAS Closet Logo" class="logo-img" /></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="shop.html">Shop</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="nav-actions">
+            <a href="cart.html" class="nav-icon-btn" title="Cart">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 01-8 0" />
+                </svg>
+                <span class="cart-count" style="display:none;">0</span>
+            </a>
+            <a href="login.html" id="navLoginBtn" class="btn-nav-login">Log In</a>
+            <button id="navUserBtn" class="nav-icon-btn user-avatar-btn" style="display:none;"
+                onclick="window.location.href='account.html'">U</button>
+        </div>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-nav" id="mobileNav">
+        <a href="index.html">Home</a><a href="about.html">About</a><a href="shop.html">Shop</a>
+        <a href="contact.html">Contact</a><a href="login.html">Log In / Sign Up</a><a href="cart.html">🛒 Cart</a>
+    </div>
+
+    <div class="page-wrap">
+
+        <!-- SHOP HEADER -->
+        <div class="shop-header">
+            <div class="container">
+                <span class="section-label">Our Collection</span>
+                <h1 class="section-title">Shop IVAS Closet</h1>
+                <p class="section-sub">Premium shoes and clothing for every style and season.</p>
+            </div>
+        </div>
+
+        <!-- CATEGORY DROPDOWN + FILTERS -->
+        <div class="shop-controls">
+            <div class="container">
+                <div class="shop-controls-row">
+                    <!-- Category Dropdown -->
+                    <div class="category-dropdowns">
+                        <div class="dropdown-wrap">
+                            <select id="catSelect" class="form-input shop-dropdown" onchange="applyFilters()">
+                                <option value="all">All Categories</option>
+                                <option value="shoes">👟 Shoes</option>
+                                <option value="clothes">👗 Clothing</option>
+                            </select>
+                        </div>
+                        <div class="dropdown-wrap">
+                            <select id="sortSelect" class="form-input shop-dropdown" onchange="applyFilters()">
+                                <option value="default">Sort: Featured</option>
+                                <option value="price-asc">Price: Low to High</option>
+                                <option value="price-desc">Price: High to Low</option>
+                                <option value="rating">Top Rated</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Gender Filter Pills -->
+                    <div class="gender-filters" id="genderFilters">
+                        <button class="filter-pill active" data-gender="all" onclick="setGender(this)">All</button>
+                        <button class="filter-pill" data-gender="men" onclick="setGender(this)">Men</button>
+                        <button class="filter-pill" data-gender="women" onclick="setGender(this)">Women</button>
+                        <button class="filter-pill" data-gender="children" onclick="setGender(this)">Children</button>
+                    </div>
+
+                    <div class="results-count" id="resultsCount">Loading…</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LATEST ARRIVALS STRIP -->
+        <div class="latest-arrivals-bar">
+            <div class="container">
+                <span class="arrivals-label">✨ Latest Arrivals</span>
+                <div class="arrivals-strip" id="arrivalsStrip"></div>
+            </div>
+        </div>
+
+        <!-- PRODUCTS -->
+        <section class="section-sm">
+            <div class="container">
+                <div class="shop-products-grid" id="shopGrid"></div>
+                <div id="emptyState" class="empty-state" style="display:none;">
+                    <div class="empty-icon">🔍</div>
+                    <h3>No products found</h3>
+                    <p>Try adjusting your filters</p>
+                    <button class="btn-primary" onclick="resetFilters()">Clear Filters</button>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- end page-wrap -->
+
+    <!-- SIZE PICKER MODAL -->
+    <div class="modal-overlay" id="sizeModal">
+        <div class="modal" style="position:relative;">
+            <button class="modal-close" onclick="closeSizeModal()">✕</button>
+            <div id="sizeModalContent"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="footer-logo"><img src="images/logo.jpg" alt="IVAS Closet Logo" class="logo-img" /></div>
+                <p class="footer-desc">Premium fashion curated for the modern lifestyle.</p>
+                <div class="footer-socials">
+                    <a href="#" class="social-btn">📸</a><a href="#" class="social-btn">👥</a>
+                    <a href="#" class="social-btn">🐦</a><a href="#" class="social-btn">🎵</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <div class="footer-links">
+                    <a href="index.html">Home</a><a href="about.html">About</a>
+                    <a href="shop.html">Shop</a><a href="loyalty.html">Rewards</a><a href="contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Help</h4>
+                <div class="footer-links">
+                    <a href="#">Shipping</a><a href="#">Returns</a><a href="#">Size Guide</a><a href="#">FAQ</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Opening Hours</h4>
+                <div class="footer-links">
+                    <span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Mon – Fri: 9am – 8pm</span>
+                    <span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Saturday: 9am – 6pm</span>
+                    <span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Sunday: Closed</span>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <div class="footer-contact-item">
+                    <div class="footer-contact-icon">📱</div>
+                    <div>WhatsApp: +254 700 000 000</div>
+                </div>
+                <div class="footer-contact-item">
+                    <div class="footer-contact-icon">✉️</div>
+                    <div>hello@ivascloset.com</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom"><span>© 2026 IVAS Closet</span><span>Made with ❤️ in Kenya</span></div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        let activeGender = 'all';
+        let selectedProduct = null;
+
+        function setGender(btn) {
+            document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeGender = btn.dataset.gender;
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const cat = document.getElementById('catSelect').value;
+            const sort = document.getElementById('sortSelect').value;
+            let filtered = [...PRODUCTS];
+            if (cat !== 'all') filtered = filtered.filter(p => p.category === cat);
+            if (activeGender !== 'all') filtered = filtered.filter(p => p.gender === activeGender);
+            if (sort === 'price-asc') filtered.sort((a, b) => a.price - b.price);
+            if (sort === 'price-desc') filtered.sort((a, b) => b.price - a.price);
+            if (sort === 'rating') filtered.sort((a, b) => b.rating - a.rating);
+            renderProducts(filtered);
+            document.getElementById('resultsCount').textContent = `${filtered.length} item${filtered.length !== 1 ? 's' : ''}`;
+        }
+
+        function renderProducts(list) {
+            const grid = document.getElementById('shopGrid');
+            const empty = document.getElementById('emptyState');
+            if (!list.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+            empty.style.display = 'none';
+            grid.innerHTML = list.map(p => `
+    <div class="product-card" onclick="openSizeModal(${p.id})">
+      <div class="product-img-wrap">
+        <img src="${p.image}" alt="${p.name}" onerror="imgErr(this)" loading="lazy"/>
+        ${p.badge ? `<span class="product-badge badge-${p.badge}">${p.badge}</span>` : ''}
+        <div class="product-actions">
+          <button class="product-action-btn" title="Wishlist" onclick="event.stopPropagation();showToast('Added to wishlist ♡','success')">♡</button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-category">${p.category} · ${p.gender}</div>
+        <div class="product-name">${p.name}</div>
+        <p class="product-desc">${p.description}</p>
+        ${renderStars(p.rating)}
+        <div class="product-price-row">
+          <div>
+            <span class="product-price">${currency(p.price)}</span>
+            ${p.oldPrice ? `<span class="product-price-old">${currency(p.oldPrice)}</span>` : ''}
+          </div>
+          <button class="btn-cart" onclick="event.stopPropagation();openSizeModal(${p.id})">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+        }
+
+        function openSizeModal(productId) {
+            selectedProduct = PRODUCTS.find(p => p.id === productId);
+            if (!selectedProduct) return;
+            const sizes = selectedProduct.category === 'shoes'
+                ? ['36', '37', '38', '39', '40', '41', '42', '43', '44', '45']
+                : ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+            document.getElementById('sizeModalContent').innerHTML = `
+    <h2 style="font-size:1.4rem;font-weight:700;margin-bottom:4px;">${selectedProduct.name}</h2>
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:20px;">${currency(selectedProduct.price)}</p>
+    <div style="font-size:0.85rem;font-weight:600;color:var(--text-secondary);margin-bottom:12px;">SELECT SIZE</div>
+    <div class="size-grid" id="sizeGrid">
+      ${sizes.map(s => `<button class="size-btn" onclick="selectSize('${s}',this)">${s}</button>`).join('')}
+    </div>
+    <button class="btn-primary" style="width:100%;margin-top:24px;justify-content:center;" onclick="confirmAddToCart()">Add to Cart →</button>
+  `;
+            document.getElementById('sizeModal').classList.add('open');
+            window._selectedSize = sizes[0];
+            document.querySelector('.size-btn').classList.add('selected');
+        }
+
+        function selectSize(size, btn) {
+            window._selectedSize = size;
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        function confirmAddToCart() {
+            if (!selectedProduct || !window._selectedSize) return;
+            addToCart(selectedProduct.id, window._selectedSize);
+            closeSizeModal();
+        }
+
+        function closeSizeModal() { document.getElementById('sizeModal').classList.remove('open'); }
+
+        function resetFilters() {
+            document.getElementById('catSelect').value = 'all';
+            document.getElementById('sortSelect').value = 'default';
+            document.querySelectorAll('.filter-pill').forEach((b, i) => b.classList.toggle('active', i === 0));
+            activeGender = 'all';
+            applyFilters();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Latest arrivals strip (newest 4)
+            const strip = document.getElementById('arrivalsStrip');
+            strip.innerHTML = PRODUCTS.filter(p => p.badge === 'new').map(p => `
+    <div class="arrival-chip" onclick="openSizeModal(${p.id})">
+      <img src="${p.image}" alt="${p.name}" onerror="imgErr(this)"/>
+      <div class="arrival-info"><div class="arrival-name">${p.name}</div><div class="arrival-price">${currency(p.price)}</div></div>
+    </div>
+  `).join('');
+
+            // Read URL params
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('cat')) document.getElementById('catSelect').value = params.get('cat');
+            if (params.get('gender')) {
+                activeGender = params.get('gender');
+                document.querySelectorAll('.filter-pill').forEach(b => {
+                    b.classList.toggle('active', b.dataset.gender === activeGender);
+                });
+            }
+            applyFilters();
+
+            // Close modal on overlay click
+            document.getElementById('sizeModal').addEventListener('click', e => {
+                if (e.target === document.getElementById('sizeModal')) closeSizeModal();
+            });
+        });
+    </script>
+</body>
+
+</html>

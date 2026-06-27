@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login — IVAS Closet</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="auth.css" />
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo"><img src="images/logo.jpg" alt="IVAS Closet Logo" class="logo-img" /></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a><a href="about.html">About</a>
+            <a href="shop.html">Shop</a><a href="loyalty.html">Rewards</a><a href="contact.html">Contact</a>
+        </div>
+        <div class="nav-actions">
+            <a href="cart.html" class="nav-icon-btn">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 01-8 0" />
+                </svg>
+                <span class="cart-count" style="display:none;">0</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="page-wrap auth-page">
+        <div class="auth-container">
+
+            <!-- LEFT PANEL -->
+            <div class="auth-left">
+                <div class="auth-brand"><img src="images/logo.jpg" alt="IVAS Closet Logo" class="logo-img" /></div>
+                <h2 class="auth-tagline">Your style journey starts here.</h2>
+                <p class="auth-desc">Log in to track your orders, save your wishlist, and enjoy a personalized shopping
+                    experience.</p>
+                <div class="auth-features">
+                    <div class="auth-feature"><span class="af-icon">🛍️</span><span>Track your orders in real
+                            time</span></div>
+                    <div class="auth-feature"><span class="af-icon">♡</span><span>Save items to your wishlist</span>
+                    </div>
+                    <div class="auth-feature"><span class="af-icon">🎁</span><span>Exclusive member-only offers</span>
+                    </div>
+                    <div class="auth-feature"><span class="af-icon">🚚</span><span>Faster checkout every time</span>
+                    </div>
+                </div>
+                <div class="auth-hero-img">
+                    <img src="images/product_clothes.png" alt="Fashion" onerror="imgErr(this)" />
+                </div>
+            </div>
+
+            <!-- RIGHT: FORM TABS -->
+            <div class="auth-right">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Log In</button>
+                    <button class="auth-tab" id="tabSignup" onclick="switchTab('signup')">Sign Up</button>
+                </div>
+
+                <!-- LOGIN FORM -->
+                <div id="loginForm">
+                    <h1 class="auth-form-title">Welcome back</h1>
+                    <p class="auth-form-sub">Sign in to your IVAS Closet account</p>
+
+                    <div class="form-group" style="margin-top:28px;">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="loginEmail" class="form-input" placeholder="your@email.com" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <div class="input-password-wrap">
+                            <input type="password" id="loginPassword" class="form-input"
+                                placeholder="Enter your password" />
+                            <button class="toggle-pw" onclick="togglePw('loginPassword', this)">👁</button>
+                        </div>
+                    </div>
+                    <div id="loginError" class="auth-error" style="display:none;"></div>
+                    <button class="btn-primary auth-submit-btn" onclick="doLogin()">Log In →</button>
+
+                    <div class="auth-divider"><span>or</span></div>
+                    <div class="auth-hint">Don't have an account? <a href="#" onclick="switchTab('signup')">Sign up
+                            free</a></div>
+                    <div class="auth-hint" style="margin-top:8px;font-size:0.8rem;color:var(--text-muted);">
+                        Admin login: admin@ivascloset.com / admin123
+                    </div>
+                </div>
+
+                <!-- SIGNUP FORM -->
+                <div id="signupForm" style="display:none;">
+                    <h1 class="auth-form-title">Create account</h1>
+                    <p class="auth-form-sub">Join IVAS Closet today — it's free</p>
+
+                    <div class="form-group" style="margin-top:28px;">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" id="signupName" class="form-input" placeholder="Your full name" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="signupEmail" class="form-input" placeholder="your@email.com" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <div class="input-password-wrap">
+                            <input type="password" id="signupPassword" class="form-input"
+                                placeholder="Minimum 6 characters" />
+                            <button class="toggle-pw" onclick="togglePw('signupPassword', this)">👁</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Confirm Password</label>
+                        <input type="password" id="signupConfirm" class="form-input"
+                            placeholder="Repeat your password" />
+                    </div>
+                    <div id="signupError" class="auth-error" style="display:none;"></div>
+                    <button class="btn-primary auth-submit-btn" onclick="doSignup()">Create Account →</button>
+                    <div class="auth-divider"><span>or</span></div>
+                    <div class="auth-hint">Already have an account? <a href="#" onclick="switchTab('login')">Log in</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        function switchTab(tab) {
+            const isLogin = tab === 'login';
+            document.getElementById('loginForm').style.display = isLogin ? 'block' : 'none';
+            document.getElementById('signupForm').style.display = isLogin ? 'none' : 'block';
+            document.getElementById('tabLogin').classList.toggle('active', isLogin);
+            document.getElementById('tabSignup').classList.toggle('active', !isLogin);
+        }
+
+        function togglePw(id, btn) {
+            const inp = document.getElementById(id);
+            inp.type = inp.type === 'password' ? 'text' : 'password';
+            btn.textContent = inp.type === 'password' ? '👁' : '🙈';
+        }
+
+        function doLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const pw = document.getElementById('loginPassword').value;
+            const errEl = document.getElementById('loginError');
+            if (!email || !pw) { showErr(errEl, 'Please fill in all fields.'); return; }
+            const res = loginUser(email, pw);
+            if (!res.ok) { showErr(errEl, res.msg); return; }
+            errEl.style.display = 'none';
+            showToast('Welcome back, ' + res.user.name + '! 👋', 'success');
+            setTimeout(() => {
+                window.location.href = res.user.role === 'admin' ? 'admin.html' : 'index.html';
+            }, 800);
+        }
+
+        function doSignup() {
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const pw = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('signupConfirm').value;
+            const errEl = document.getElementById('signupError');
+            if (!name || !email || !pw) { showErr(errEl, 'Please fill in all fields.'); return; }
+            if (pw.length < 6) { showErr(errEl, 'Password must be at least 6 characters.'); return; }
+            if (pw !== confirm) { showErr(errEl, 'Passwords do not match.'); return; }
+            const res = registerUser(name, email, pw);
+            if (!res.ok) { showErr(errEl, res.msg); return; }
+            showToast('Account created! Welcome, ' + name + '! 🎉', 'success');
+            setTimeout(() => { window.location.href = 'index.html'; }, 900);
+        }
+
+        function showErr(el, msg) {
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+
+        // Redirect if already logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = getCurrentUser();
+            if (user) window.location.href = user.role === 'admin' ? 'admin.html' : 'index.html';
+            // Check if url says signup
+            if (window.location.search.includes('signup')) switchTab('signup');
+        });
+    </script>
+</body>
+
+</html>

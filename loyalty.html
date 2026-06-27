@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IVAS Rewards — IVAS Closet</title>
+    <meta name="description"
+        content="Join IVAS Rewards to earn points on every purchase and unlock exclusive fashion benefits." />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="loyalty.css" />
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo"><img src="images/logo.jpg" alt="IVAS Closet Logo" class="logo-img" /></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="loyalty.html">Rewards</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <div class="nav-actions">
+            <a href="cart.html" class="nav-icon-btn">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 01-8 0" />
+                </svg>
+                <span class="cart-count" style="display:none;">0</span>
+            </a>
+            <a href="login.html" id="navLoginBtn" class="btn-nav-login">Log In</a>
+            <button id="navUserBtn" class="nav-icon-btn" style="display:none;"
+                onclick="window.location.href='loyalty.html'">U</button>
+        </div>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-nav" id="mobileNav">
+        <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="loyalty.html">Rewards</a>
+        <a href="about.html">About</a><a href="contact.html">Contact</a><a href="login.html">Log In</a>
+    </div>
+
+    <div class="page-wrap">
+
+        <!-- LOYALTY HERO -->
+        <section class="loyalty-hero">
+            <div class="hero-bg-accent"></div>
+            <div class="container" style="position:relative; z-index:2; text-align:center;">
+                <div class="loyalty-badge">✨ IVAS Rewards</div>
+                <h1 class="loyalty-title">Earn while you Shop</h1>
+                <p class="loyalty-sub">Join our exclusive loyalty program and earn points on every purchase. Unlock
+                    premium fashion benefits.</p>
+
+                <div id="loyaltyStatusCard" class="loyalty-status-card">
+                    <!-- Dynamic content injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">Simple & Rewarding</span>
+                    <h2 class="section-title">How It Works</h2>
+                </div>
+                <div class="loyalty-steps-grid">
+                    <div class="step-card">
+                        <div class="step-icon">1</div>
+                        <h3>Join for Free</h3>
+                        <p>Create an account on IVAS Closet. It's completely free and takes seconds.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon">2</div>
+                        <h3>Shop & Earn</h3>
+                        <p>Earn 1 Reward Point for every KSh 100 spent on our premium products.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon">3</div>
+                        <h3>Redeem Discounts</h3>
+                        <p>Use your points at checkout. 1 Point = KSh 1 off your total purchase. No minimum points
+                            required!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BENEFITS -->
+        <section class="section-sm" style="background:var(--bg-soft);">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">More Than Just Points</h2>
+                </div>
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <div class="bi-icon">🚚</div>
+                        <div>
+                            <h4>Priority Shipping</h4>
+                            <p>All members get prioritized order processing on their purchases.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="bi-icon">🎉</div>
+                        <div>
+                            <h4>Early Access</h4>
+                            <p>Get notified about new drops and sales before anyone else.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="bi-icon">🎁</div>
+                        <div>
+                            <h4>Birthday Surprises</h4>
+                            <p>Special bonus points and discounts during your birthday month.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="section" id="loyaltyCtaSection" style="text-align:center;">
+            <div class="container">
+                <h2 style="font-size:2rem; font-weight:800; margin-bottom:16px;">Ready to get rewarded?</h2>
+                <a href="login.html" class="btn-primary" style="padding:16px 36px; font-size:1.05rem;">Join IVAS Rewards
+                    →</a>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="footer-logo"><img src="images/logo.jpg" alt="IVAS Closet Logo" class="logo-img" /></div>
+                <p class="footer-desc">Premium fashion curated for the modern lifestyle.</p>
+                <div class="footer-socials">
+                    <a href="#" class="social-btn">📸</a><a href="#" class="social-btn">👥</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <div class="footer-links">
+                    <a href="index.html">Home</a><a href="shop.html">Shop</a>
+                    <a href="loyalty.html">Rewards</a><a href="about.html">About</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Opening Hours</h4>
+                <div class="footer-links">
+                    <span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Mon – Fri: 9am – 8pm</span>
+                    <span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Saturday: 9am – 6pm</span>
+                    <span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Sunday: Closed</span>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <div class="footer-contact-item">
+                    <div class="footer-contact-icon">📱</div>
+                    <div>WhatsApp: +254 700 000 000</div>
+                </div>
+                <div class="footer-contact-item">
+                    <div class="footer-contact-icon">✉️</div>
+                    <div>hello@ivascloset.com</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom"><span>© 2026 IVAS Closet</span><span>Made with ❤️ in Kenya</span></div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = getCurrentUser();
+            const statusCard = document.getElementById('loyaltyStatusCard');
+            const ctaSection = document.getElementById('loyaltyCtaSection');
+
+            if (user && user.role === 'customer') {
+                // Logged in
+                let pts = user.points || 0;
+                ctaSection.style.display = 'none'; // Hide signup CTA
+
+                statusCard.innerHTML = `
+                    <div class="ls-greeting">Welcome back, ${user.name}!</div>
+                    <div class="ls-points-wrap">
+                        <div class="ls-pts-val">${pts.toLocaleString()}</div>
+                        <div class="ls-pts-lbl">Available Points</div>
+                    </div>
+                    <div class="ls-cash-val">= ${currency(pts)} discount value</div>
+                    <div class="ls-progress-bar">
+                        <div class="lsp-inner" style="width: ${Math.min(100, (pts / 500) * 100)}%;"></div>
+                    </div>
+                    <div class="ls-tier">Status: <strong>${pts >= 500 ? 'Gold Member 🥇' : pts >= 100 ? 'Silver Member 🥈' : 'Member'}</strong></div>
+                    <a href="shop.html" class="btn-primary" style="margin-top:20px;">Shop and Earn More →</a>
+                `;
+                statusCard.classList.add('active');
+            } else if (user && user.role === 'admin') {
+                statusCard.innerHTML = `<p style="padding: 20px;">Admins do not earn loyalty points.</p>`;
+                statusCard.classList.add('active');
+                ctaSection.style.display = 'none';
+            } else {
+                // Guest
+                statusCard.innerHTML = `
+                    <p style="margin-bottom: 20px; font-weight:600; color:var(--text-secondary);">Log in to view your points balance.</p>
+                    <a href="login.html" class="btn-primary" style="width: 100%; justify-content:center;">Log In / Register</a>
+                `;
+                statusCard.classList.add('active');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,215 @@
+/* loyalty.css */
+
+.loyalty-hero {
+    position: relative;
+    padding: 120px 40px 80px;
+    background: var(--brand);
+    color: #fff;
+    overflow: hidden;
+    text-align: center;
+}
+
+.hero-bg-accent {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(200, 169, 110, 0.15) 0%, transparent 60%);
+    z-index: 1;
+}
+
+.loyalty-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(200, 169, 110, 0.2);
+    color: var(--brand-accent);
+    font-weight: 800;
+    font-size: 0.9rem;
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(200, 169, 110, 0.5);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.loyalty-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.1;
+    letter-spacing: -1px;
+}
+
+.loyalty-sub {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 600px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+}
+
+/* Status Card */
+.loyalty-status-card {
+    background: var(--bg);
+    border-radius: var(--radius-xl);
+    padding: 40px;
+    max-width: 440px;
+    margin: 0 auto;
+    color: var(--text-primary);
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    border: 1px solid rgba(200, 169, 110, 0.3);
+    display: none;
+    /* Displayed via JS */
+}
+
+.loyalty-status-card.active {
+    display: block;
+}
+
+.ls-greeting {
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+.ls-points-wrap {
+    margin-bottom: 8px;
+}
+
+.ls-pts-val {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--brand-accent);
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+.ls-pts-lbl {
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--brand);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 8px;
+}
+
+.ls-cash-val {
+    font-size: 0.9rem;
+    color: #30d158;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.ls-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-soft);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.lsp-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--brand-accent), #e3c88c);
+    border-radius: var(--radius-full);
+}
+
+.ls-tier {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* Steps Grid */
+.loyalty-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+}
+
+.step-card {
+    background: var(--bg-soft);
+    padding: 40px 32px;
+    border-radius: var(--radius-xl);
+    text-align: center;
+    border: 1px solid var(--border);
+    transition: var(--transition);
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-sm);
+}
+
+.step-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background: var(--brand);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin: 0 auto 24px;
+}
+
+.step-card h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.step-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* Benefits */
+.benefits-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+}
+
+.benefit-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.bi-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.benefit-item h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.benefit-item p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 900px) {
+    .loyalty-steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .benefits-list {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .loyalty-status-card {
+        padding: 32px 24px;
+    }
+}
