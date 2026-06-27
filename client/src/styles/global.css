@@ -261,6 +261,27 @@ textarea {
     transform: translateY(-1px);
 }
 
+.btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 22px;
+    background: transparent;
+    color: var(--brand);
+    border-radius: var(--radius-full);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: var(--transition);
+    border: 2px solid var(--border);
+    cursor: pointer;
+}
+
+.btn-outline:hover {
+    border-color: var(--brand);
+    background: var(--brand-light);
+}
+
 .btn-accent {
     display: inline-flex;
     align-items: center;
@@ -854,4 +875,19 @@ select.form-input {
 
 .user-avatar-btn:hover {
     background: #b8953e;
+}
+
+.user-avatar-link {
+    display: inline-flex;
+    border-radius: var(--radius-full);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.user-avatar-link:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.4);
+}
+
+.user-avatar-link .avatar {
+    cursor: pointer;
 }

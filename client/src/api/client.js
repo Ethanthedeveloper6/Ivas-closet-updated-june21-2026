@@ -24,6 +24,9 @@ export const api = {
     login: (email, password) => request('/auth/login', { method: 'POST', body: { email, password } }),
     register: (name, email, password) => request('/auth/register', { method: 'POST', body: { name, email, password } }),
     getMe: () => request('/auth/me'),
+    updateProfile: (name) => request('/auth/profile', { method: 'PUT', body: { name } }),
+    changePassword: (currentPassword, newPassword) => request('/auth/password', { method: 'PUT', body: { currentPassword, newPassword } }),
+    uploadAvatar: (formData) => request('/auth/avatar', { method: 'POST', body: formData }),
 
     getProducts: (params = {}) => {
         const qs = new URLSearchParams(params).toString();
@@ -31,10 +34,13 @@ export const api = {
     },
     getProduct: (id) => request(`/products/${id}`),
     createProduct: (formData) => request('/products', { method: 'POST', body: formData }),
+    updateProduct: (id, formData) => request(`/products/${id}`, { method: 'PUT', body: formData }),
+    deleteProduct: (id) => request(`/products/${id}`, { method: 'DELETE' }),
 
     getOrders: () => request('/orders'),
     placeOrder: (data) => request('/orders', { method: 'POST', body: data }),
     updateOrderStatus: (id, status) => request(`/orders/${id}/status`, { method: 'PUT', body: { status } }),
+    deleteOrder: (id) => request(`/orders/${id}`, { method: 'DELETE' }),
 
     getStock: () => request('/stock'),
     updateStock: (productId, qty) => request(`/stock/${productId}`, { method: 'PUT', body: { qty } }),

@@ -1,5 +1,4 @@
 const db = require('./db');
-const bcrypt = require('bcryptjs');
 
 console.log('🌱 Seeding database...');
 
@@ -8,12 +7,6 @@ if (count > 0) {
     console.log('Database already seeded. Skipping.');
     process.exit(0);
 }
-
-const adminPw = bcrypt.hashSync('admin123', 10);
-db.prepare(`
-  INSERT OR IGNORE INTO users (name, email, password, role, points)
-  VALUES (?, ?, ?, ?, ?)
-`).run('Admin', 'admin@ivascloset.com', adminPw, 'admin', 0);
 
 const products = [
     { name: "Air Luxe Sneaker", category: "shoes", gender: "men", price: 4800, old_price: 6200, image: "/images/product_shoes.png", rating: 5, badge: "new", description: "Premium white sneakers with cloud-like cushioning." },
@@ -53,5 +46,5 @@ const seedAll = db.transaction(() => {
 seedAll();
 
 console.log(`✅ Seeded ${products.length} products with stock levels`);
-console.log('✅ Admin user created: admin@ivascloset.com / admin123');
+console.log('✅ Admin account is managed by db.js (ADMIN_EMAIL)');
 process.exit(0);

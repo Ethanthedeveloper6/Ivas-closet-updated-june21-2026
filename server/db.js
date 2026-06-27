@@ -1,4 +1,5 @@
 const Database = require('better-sqlite3');
+const bcrypt = require('bcryptjs');
 const path = require('path');
 
 const dbPath = path.join(__dirname, 'ivas.db');
@@ -15,6 +16,7 @@ db.exec(`
     password TEXT NOT NULL,
     role TEXT DEFAULT 'customer',
     points INTEGER DEFAULT 0,
+    avatar TEXT,
     joined TEXT DEFAULT (datetime('now'))
   );
 
@@ -77,5 +79,24 @@ db.exec(`
     created_at TEXT DEFAULT (datetime('now'))
   );
 `);
+
+const userColumns = db.prepare('PRAGMA table_info(users)').all();
+if (!userColumns.some(c => c.name === 'avatar')) {
+    db.exec('ALTER TABLE users ADD COLUMN avatar TEXT');
+}
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'newtvnbrian@gmail.com';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '12428newton';
+const ADMIN_NAME = process.env.ADMIN_NAME || 'Newton';
+
+const existingAdmin = db.prepare('SELECT id FROM users WHERE email = ?').get(ADMIN_EMAIL);
+if (existingAdmin) {
+    db.prepare("UPDATE users SET role = 'admin' WHERE email = ?").run(ADMIN_EMAIL);
+} else {
+    db.prepare("INSERT INTO users (name, email, password, role, points) VALUES (?, ?, ?, 'admin', 0)")
+        .run(ADMIN_NAME, ADMIN_EMAIL, bcrypt.hashSync(ADMIN_PASSWORD, 10));
+}
+db.prepare("UPDATE users SET role = 'customer' WHERE role = 'admin' AND email != ?").run(ADMIN_EMAIL);
+db.prepare("DELETE FROM users WHERE email = 'admin@ivascloset.com' AND email != ?").run(ADMIN_EMAIL);
 
 module.exports = db;

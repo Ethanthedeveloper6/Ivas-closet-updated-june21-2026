@@ -95,9 +95,6 @@ export default function Login() {
                             <button className="btn-primary auth-submit-btn" onClick={handleLogin}>Log In →</button>
                             <div className="auth-divider"><span>or</span></div>
                             <div className="auth-hint">Don't have an account? <a href="#" onClick={e => { e.preventDefault(); setTab('signup'); setError(''); }}>Sign up free</a></div>
-                            <div className="auth-hint" style={{ marginTop: 8, fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                                Admin login: admin@ivascloset.com / admin123
-                            </div>
                         </div>
                     ) : (
                         <div>
