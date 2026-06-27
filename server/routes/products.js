@@ -5,7 +5,6 @@ const path = require('path');
 const db = require('../db');
 const { requireAdmin } = require('../middleware/auth');
 
-// Configure multer for image uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, path.join(__dirname, '../../client/public/images'));
@@ -25,7 +24,6 @@ const upload = multer({
     }
 });
 
-// GET /api/products
 router.get('/', (req, res) => {
     const { category, gender, sort } = req.query;
     let sql = 'SELECT * FROM products WHERE 1=1';
@@ -49,14 +47,12 @@ router.get('/', (req, res) => {
     res.json(products);
 });
 
-// GET /api/products/:id
 router.get('/:id', (req, res) => {
     const product = db.prepare('SELECT * FROM products WHERE id = ?').get(req.params.id);
     if (!product) return res.status(404).json({ error: 'Product not found' });
     res.json(product);
 });
 
-// POST /api/products (admin only)
 router.post('/', requireAdmin, upload.single('image'), (req, res) => {
     const { name, category, gender, price, old_price, description, badge, stock_qty } = req.body;
     if (!name || !price || !description) {
@@ -70,7 +66,6 @@ router.post('/', requireAdmin, upload.single('image'), (req, res) => {
     VALUES (?, ?, ?, ?, ?, ?, 5, ?, ?)
   `).run(name, category || 'clothes', gender || 'men', parseInt(price), old_price ? parseInt(old_price) : null, image, badge || null, description);
 
-    // Add stock
     db.prepare('INSERT INTO stock (product_id, qty, active) VALUES (?, ?, 1)')
         .run(result.lastInsertRowid, parseInt(stock_qty) || 10);
 

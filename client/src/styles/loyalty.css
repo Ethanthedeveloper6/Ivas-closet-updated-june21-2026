@@ -1,5 +1,3 @@
-/* loyalty.css */
-
 .loyalty-hero {
     position: relative;
     padding: 120px 40px 80px;
@@ -49,7 +47,6 @@
     line-height: 1.6;
 }
 
-/* Status Card */
 .loyalty-status-card {
     background: var(--bg);
     border-radius: var(--radius-xl);
@@ -61,7 +58,7 @@
     text-align: center;
     border: 1px solid rgba(200, 169, 110, 0.3);
     display: none;
-    /* Displayed via JS */
+    
 }
 
 .loyalty-status-card.active {
@@ -122,7 +119,6 @@
     color: var(--text-secondary);
 }
 
-/* Steps Grid */
 .loyalty-steps-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -169,7 +165,6 @@
     font-size: 0.95rem;
 }
 
-/* Benefits */
 .benefits-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

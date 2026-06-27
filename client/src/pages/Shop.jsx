@@ -21,7 +21,6 @@ export default function Shop() {
     useEffect(() => {
         api.getProducts().then(data => {
             setProducts(data);
-            // Read URL params
             const cat = searchParams.get('cat');
             const gen = searchParams.get('gender');
             if (cat) setCategory(cat);
@@ -64,7 +63,6 @@ export default function Shop() {
 
     return (
         <div className="page-wrap">
-            {/* HEADER */}
             <div className="shop-header">
                 <div className="container">
                     <span className="section-label">Our Collection</span>
@@ -73,7 +71,6 @@ export default function Shop() {
                 </div>
             </div>
 
-            {/* CONTROLS */}
             <div className="shop-controls">
                 <div className="container">
                     <div className="shop-controls-row">
@@ -110,7 +107,6 @@ export default function Shop() {
                 </div>
             </div>
 
-            {/* LATEST ARRIVALS */}
             {newArrivals.length > 0 && (
                 <div className="latest-arrivals-bar">
                     <div className="container">
@@ -130,7 +126,6 @@ export default function Shop() {
                 </div>
             )}
 
-            {/* PRODUCTS */}
             <section className="section-sm">
                 <div className="container">
                     {filtered.length > 0 ? (
@@ -156,7 +151,6 @@ export default function Shop() {
                 </div>
             </section>
 
-            {/* SIZE MODAL */}
             <div className={`modal-overlay${sizeModal ? ' open' : ''}`} onClick={e => e.target === e.currentTarget && setSizeModal(null)}>
                 <div className="modal" style={{ position: 'relative' }}>
                     <button className="modal-close" onClick={() => setSizeModal(null)}>✕</button>

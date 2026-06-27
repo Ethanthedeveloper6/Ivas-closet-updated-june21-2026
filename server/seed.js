@@ -3,21 +3,18 @@ const bcrypt = require('bcryptjs');
 
 console.log('🌱 Seeding database...');
 
-// Check if products already exist
 const count = db.prepare('SELECT COUNT(*) as cnt FROM products').get().cnt;
 if (count > 0) {
     console.log('Database already seeded. Skipping.');
     process.exit(0);
 }
 
-// Seed admin user
 const adminPw = bcrypt.hashSync('admin123', 10);
 db.prepare(`
   INSERT OR IGNORE INTO users (name, email, password, role, points)
   VALUES (?, ?, ?, ?, ?)
 `).run('Admin', 'admin@ivascloset.com', adminPw, 'admin', 0);
 
-// Seed products
 const products = [
     { name: "Air Luxe Sneaker", category: "shoes", gender: "men", price: 4800, old_price: 6200, image: "/images/product_shoes.png", rating: 5, badge: "new", description: "Premium white sneakers with cloud-like cushioning." },
     { name: "Strider Boot", category: "shoes", gender: "men", price: 6500, old_price: null, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80", rating: 4, badge: null, description: "Rugged yet refined leather boots built for the city." },

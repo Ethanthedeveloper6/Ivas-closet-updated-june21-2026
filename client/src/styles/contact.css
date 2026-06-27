@@ -1,12 +1,9 @@
-/* ===== CONTACT PAGE ===== */
-
 .contact-header {
     padding: 64px 40px 48px;
     background: var(--bg-soft);
     border-bottom: 1px solid var(--border);
 }
 
-/* CONTACT WAYS */
 .contact-ways-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -74,7 +71,6 @@
     font-weight: 600;
 }
 
-/* CONTACT FORM SECTION */
 .contact-form-section {
     background: var(--bg-soft);
 }

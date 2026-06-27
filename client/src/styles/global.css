@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;900&display=swap');
 
-/* ===== DESIGN TOKENS ===== */
 :root {
     --brand: #1a1a1a;
     --brand-accent: #c8a96e;
@@ -24,7 +23,6 @@
     --nav-h: 64px;
 }
 
-/* ===== RESET ===== */
 *,
 *::before,
 *::after {
@@ -72,7 +70,6 @@ textarea {
     font-family: inherit;
 }
 
-/* ===== NAVBAR ===== */
 .navbar {
     position: fixed;
     top: 0;
@@ -223,7 +220,6 @@ textarea {
     transition: var(--transition);
 }
 
-/* ===== BUTTONS ===== */
 .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -285,7 +281,6 @@ textarea {
     box-shadow: var(--shadow-md);
 }
 
-/* ===== SECTION LAYOUT ===== */
 .section {
     padding: 96px 40px;
 }
@@ -331,7 +326,6 @@ textarea {
     margin-right: auto;
 }
 
-/* ===== PRODUCT CARD ===== */
 .product-card {
     background: var(--bg-card);
     border-radius: var(--radius-lg);
@@ -494,7 +488,6 @@ textarea {
     background: var(--brand-accent);
 }
 
-/* ===== FOOTER ===== */
 .footer {
     background: var(--brand);
     color: rgba(255, 255, 255, 0.75);
@@ -608,7 +601,6 @@ textarea {
     color: rgba(255, 255, 255, 0.45);
 }
 
-/* ===== STARS ===== */
 .stars-input {
     display: flex;
     gap: 4px;
@@ -626,7 +618,6 @@ textarea {
     color: #ffd60a;
 }
 
-/* ===== TOAST ===== */
 .toast-container {
     position: fixed;
     bottom: 32px;
@@ -671,7 +662,6 @@ textarea {
     }
 }
 
-/* ===== MODAL ===== */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -723,7 +713,6 @@ textarea {
     font-size: 1.1rem;
 }
 
-/* ===== FORM ELEMENTS ===== */
 .form-group {
     margin-bottom: 18px;
 }
@@ -765,13 +754,11 @@ select.form-input {
     padding-right: 36px;
 }
 
-/* ===== PAGE WRAPPER ===== */
 .page-wrap {
     padding-top: var(--nav-h);
     min-height: 100vh;
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
     .nav-links {
         display: none;
@@ -815,7 +802,6 @@ select.form-input {
     }
 }
 
-/* ===== MOBILE NAV DRAWER ===== */
 .mobile-nav {
     position: fixed;
     top: var(--nav-h);
@@ -852,7 +838,6 @@ select.form-input {
     color: var(--brand);
 }
 
-/* USER AVATAR BUTTON */
 .user-avatar-btn {
     width: 36px;
     height: 36px;

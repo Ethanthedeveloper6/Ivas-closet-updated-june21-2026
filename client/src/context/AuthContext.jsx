@@ -45,7 +45,9 @@ export function AuthProvider({ children }) {
         try {
             const data = await api.getMe();
             setUser(data.user);
-        } catch { /* ignore */ }
+        } catch {
+            setUser(null);
+        }
     };
 
     return (

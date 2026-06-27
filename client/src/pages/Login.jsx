@@ -55,7 +55,6 @@ export default function Login() {
     return (
         <div className="page-wrap auth-page">
             <div className="auth-container">
-                {/* LEFT */}
                 <div className="auth-left">
                     <div className="auth-brand"><img src="/images/logo.jpg" alt="IVAS Closet Logo" className="logo-img" /></div>
                     <h2 className="auth-tagline">Your style journey starts here.</h2>
@@ -71,7 +70,6 @@ export default function Login() {
                     </div>
                 </div>
 
-                {/* RIGHT */}
                 <div className="auth-right">
                     <div className="auth-tabs">
                         <button className={`auth-tab${tab === 'login' ? ' active' : ''}`} onClick={() => { setTab('login'); setError(''); }}>Log In</button>

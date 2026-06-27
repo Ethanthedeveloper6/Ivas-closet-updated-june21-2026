@@ -14,7 +14,6 @@ export default function Cart() {
     const [shipping, setShipping] = useState({ name: '', email: '', phone: '', address: '' });
     const [receipt, setReceipt] = useState(null);
 
-    // Multi-buy calc
     const clothingItems = cart.filter(i => i.category === 'clothes');
     const clothingQty = clothingItems.reduce((s, i) => s + i.qty, 0);
     const multiBuyPct = clothingQty > 1 ? (clothingQty - 1) * 2.5 : 0;
@@ -51,7 +50,6 @@ export default function Cart() {
     return (
         <div className="page-wrap">
             <div className="cart-layout container">
-                {/* CART ITEMS */}
                 <div className="cart-main">
                     <div className="cart-title-row">
                         <h1 className="cart-title">Shopping Cart</h1>
@@ -88,7 +86,6 @@ export default function Cart() {
                     )}
                 </div>
 
-                {/* ORDER SUMMARY */}
                 <div className="cart-sidebar">
                     <div className="order-summary">
                         <h2 className="summary-title">Order Summary</h2>
@@ -118,7 +115,6 @@ export default function Cart() {
                         </div>
                         <div className="summary-divider"></div>
 
-                        {/* LOYALTY */}
                         {user?.role === 'customer' && cart.length > 0 && (
                             <div className="loyalty-box active">
                                 <div className="loyalty-header">
@@ -175,7 +171,6 @@ export default function Cart() {
                 </div>
             </div>
 
-            {/* RECEIPT MODAL */}
             <div className={`modal-overlay${receipt ? ' open' : ''}`} onClick={e => e.target === e.currentTarget && setReceipt(null)}>
                 {receipt && (
                     <div className="receipt-modal">

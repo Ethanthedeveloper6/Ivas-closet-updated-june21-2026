@@ -12,7 +12,7 @@
     "client:dev": "cd client && npm run dev",
     "dev": "npm run server:dev & npm run client:dev",
     "build": "cd client && npm run build",
-    "start": "NODE_ENV=production cd server && npm start"
+    "start": "cd server && NODE_ENV=production npm start"
   },
   "keywords": [
     "ecommerce",

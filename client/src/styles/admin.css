@@ -1,5 +1,3 @@
-/* ===== ADMIN PANEL STYLES ===== */
-
 .admin-body {
     display: flex;
     min-height: 100vh;
@@ -7,7 +5,6 @@
     padding-top: 0 !important;
 }
 
-/* ===== SIDEBAR ===== */
 .admin-sidebar {
     width: 240px;
     flex-shrink: 0;
@@ -170,7 +167,6 @@
     background: rgba(255, 255, 255, 0.06);
 }
 
-/* ===== CONTENT AREA ===== */
 .admin-content {
     margin-left: 240px;
     flex: 1;
@@ -180,7 +176,6 @@
     flex-direction: column;
 }
 
-/* TOP BAR */
 .admin-topbar {
     display: flex;
     align-items: center;
@@ -233,7 +228,6 @@
     color: var(--text-muted);
 }
 
-/* ADMIN TABS */
 .admin-tab {
     padding: 28px 32px;
 }
@@ -264,7 +258,6 @@
     align-items: center;
 }
 
-/* KPI GRID */
 .kpi-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -317,14 +310,12 @@
     color: #ff9500;
 }
 
-/* TWO-COL LAYOUT */
 .admin-two-col {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
-/* ADMIN CARD */
 .admin-card {
     background: var(--bg);
     border-radius: var(--radius-xl);
@@ -354,7 +345,6 @@
     border: none;
 }
 
-/* MINI ORDER ROW */
 .mini-order-row {
     display: flex;
     justify-content: space-between;
@@ -373,7 +363,6 @@
     background: var(--bg-soft);
 }
 
-/* ORDER STATUS */
 .order-status {
     display: inline-block;
     padding: 3px 10px;
@@ -403,7 +392,6 @@
     color: #ff3b30;
 }
 
-/* TABLE */
 .admin-table {
     width: 100%;
     border-collapse: collapse;
@@ -464,7 +452,6 @@
     background: transparent;
 }
 
-/* ADMIN PRODUCTS GRID */
 .admin-products-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -510,7 +497,6 @@
     padding: 0 12px 12px;
 }
 
-/* UPLOAD */
 .upload-layout {
     display: grid;
     grid-template-columns: 1fr 320px;
