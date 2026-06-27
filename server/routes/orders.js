@@ -3,7 +3,6 @@ const router = express.Router();
 const db = require('../db');
 const { requireAuth, requireAdmin } = require('../middleware/auth');
 
-// GET /api/orders — admin: all, user: own
 router.get('/', requireAuth, (req, res) => {
     let orders;
     if (req.user.role === 'admin') {
@@ -12,7 +11,6 @@ router.get('/', requireAuth, (req, res) => {
         orders = db.prepare('SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC').all(req.user.id);
     }
 
-    // Attach items to each order
     const getItems = db.prepare('SELECT * FROM order_items WHERE order_id = ?');
     orders = orders.map(o => ({
         ...o,
@@ -22,7 +20,6 @@ router.get('/', requireAuth, (req, res) => {
     res.json(orders);
 });
 
-// POST /api/orders — place order
 router.post('/', (req, res) => {
     const { items, shipping, pointsUsed = 0, multiBuyDiscount = 0 } = req.body;
     if (!items || !items.length || !shipping || !shipping.name || !shipping.email || !shipping.address) {
@@ -54,7 +51,6 @@ router.post('/', (req, res) => {
             insertItem.run(orderId, item.productId, item.name, item.size, item.qty, item.price, item.category || '');
         }
 
-        // Update user points if logged in
         if (userId && req.user.role === 'customer') {
             db.prepare('UPDATE users SET points = MAX(0, points - ? + ?) WHERE id = ?')
                 .run(pointsUsed, pointsEarned, userId);
@@ -69,7 +65,6 @@ router.post('/', (req, res) => {
     res.status(201).json({ ...order, items: orderItems });
 });
 
-// PUT /api/orders/:id/status — admin only
 router.put('/:id/status', requireAdmin, (req, res) => {
     const { status } = req.body;
     const valid = ['confirmed', 'shipped', 'delivered', 'cancelled'];

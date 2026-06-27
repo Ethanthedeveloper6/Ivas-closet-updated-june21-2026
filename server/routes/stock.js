@@ -3,7 +3,6 @@ const router = express.Router();
 const db = require('../db');
 const { requireAdmin } = require('../middleware/auth');
 
-// GET /api/stock
 router.get('/', (req, res) => {
     const stock = db.prepare(`
     SELECT s.*, p.name, p.category, p.price, p.image
@@ -13,7 +12,6 @@ router.get('/', (req, res) => {
     res.json(stock);
 });
 
-// PUT /api/stock/:productId
 router.put('/:productId', requireAdmin, (req, res) => {
     const { qty } = req.body;
     if (qty === undefined || qty < 0) {

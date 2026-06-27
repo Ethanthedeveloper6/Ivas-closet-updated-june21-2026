@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// POST /api/contact
 router.post('/', (req, res) => {
     const { name, email, subject, message } = req.body;
     if (!name || !email || !message) {

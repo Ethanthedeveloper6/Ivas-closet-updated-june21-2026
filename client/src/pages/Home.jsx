@@ -24,7 +24,6 @@ export default function Home() {
 
     return (
         <div className="page-wrap">
-            {/* HERO */}
             <section className="hero" id="hero">
                 <div className="hero-content">
                     <div className="hero-tag">New Season 2026</div>
@@ -55,7 +54,6 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* TRENDING */}
             <section className="section" id="trending">
                 <div className="container">
                     <div className="section-header">
@@ -80,7 +78,6 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* CATEGORIES */}
             <section className="categories-section section-sm">
                 <div className="container">
                     <div className="categories-grid">
@@ -112,7 +109,6 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* TESTIMONIALS */}
             <section className="section testimonials-section" id="testimonials">
                 <div className="container">
                     <div className="section-header">

@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const db = require('../db');
 const { signToken } = require('../middleware/auth');
 
-// POST /api/auth/register
 router.post('/register', (req, res) => {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
@@ -30,7 +29,6 @@ router.post('/register', (req, res) => {
     res.status(201).json({ user, token });
 });
 
-// POST /api/auth/login
 router.post('/login', (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -53,7 +51,6 @@ router.post('/login', (req, res) => {
     res.json({ user: safeUser, token });
 });
 
-// GET /api/auth/me
 router.get('/me', (req, res) => {
     if (!req.user) {
         return res.status(401).json({ error: 'Not authenticated' });

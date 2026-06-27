@@ -20,7 +20,6 @@ export default function Admin() {
     const [orderFilter, setOrderFilter] = useState('all');
     const [orderDetail, setOrderDetail] = useState(null);
 
-    // Upload state
     const [uploadForm, setUploadForm] = useState({ name: '', category: 'clothes', gender: 'men', price: '', old_price: '', description: '', badge: '', stock_qty: '10' });
     const [uploadImage, setUploadImage] = useState(null);
     const [uploadPreview, setUploadPreview] = useState(null);
@@ -49,7 +48,6 @@ export default function Admin() {
         } catch { }
     };
 
-    // Dashboard metrics
     const totalRevenue = orders.reduce((s, o) => s + o.total, 0);
     const lowStock = stock.filter(s => s.qty < 10).length;
 
@@ -123,7 +121,6 @@ export default function Admin() {
 
     return (
         <div className="admin-body">
-            {/* SIDEBAR */}
             <aside className={`admin-sidebar${collapsed ? ' collapsed' : ''}`}>
                 <div className="admin-logo">
                     <img src="/images/logo.jpg" alt="IVAS" className="logo-img-admin" />
@@ -150,7 +147,6 @@ export default function Admin() {
                 </div>
             </aside>
 
-            {/* CONTENT */}
             <div className="admin-content" style={{ marginLeft: collapsed ? 64 : 240 }}>
                 <div className="admin-topbar">
                     <div className="admin-topbar-left">
@@ -163,7 +159,6 @@ export default function Admin() {
                     </div>
                 </div>
 
-                {/* DASHBOARD TAB */}
                 {tab === 'dashboard' && (
                     <div className="admin-tab">
                         <h2 className="admin-section-title">Dashboard</h2>
@@ -200,7 +195,6 @@ export default function Admin() {
                     </div>
                 )}
 
-                {/* ORDERS TAB */}
                 {tab === 'orders' && (
                     <div className="admin-tab">
                         <div className="tab-header-row">
@@ -244,7 +238,6 @@ export default function Admin() {
                     </div>
                 )}
 
-                {/* PRODUCTS TAB */}
                 {tab === 'products' && (
                     <div className="admin-tab">
                         <h2 className="admin-section-title">Products ({products.length})</h2>
@@ -263,7 +256,6 @@ export default function Admin() {
                     </div>
                 )}
 
-                {/* STOCK TAB */}
                 {tab === 'stock' && (
                     <div className="admin-tab">
                         <h2 className="admin-section-title">Stock Management</h2>
@@ -298,7 +290,6 @@ export default function Admin() {
                     </div>
                 )}
 
-                {/* UPLOAD TAB */}
                 {tab === 'upload' && (
                     <div className="admin-tab">
                         <h2 className="admin-section-title">Upload New Product</h2>
@@ -388,7 +379,6 @@ export default function Admin() {
                     </div>
                 )}
 
-                {/* CUSTOMERS TAB */}
                 {tab === 'customers' && (
                     <div className="admin-tab">
                         <h2 className="admin-section-title">Customers ({customers.length})</h2>

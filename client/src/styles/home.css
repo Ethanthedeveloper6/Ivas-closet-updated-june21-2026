@@ -1,6 +1,3 @@
-/* ===== HOME PAGE STYLES ===== */
-
-/* HERO */
 .hero {
     min-height: calc(100vh - var(--nav-h));
     display: grid;
@@ -91,7 +88,6 @@
     background: var(--border);
 }
 
-/* HERO IMAGE */
 .hero-image-wrap {
     position: relative;
     display: flex;
@@ -165,14 +161,12 @@
     color: var(--text-muted);
 }
 
-/* PRODUCTS GRID */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
 }
 
-/* CATEGORIES */
 .categories-section {
     background: var(--bg-soft);
 }
@@ -261,7 +255,6 @@
     transform: translateX(4px);
 }
 
-/* TESTIMONIALS */
 .testimonials-section {
     background: var(--bg-soft);
 }
@@ -389,7 +382,6 @@
     color: var(--text-muted);
 }
 
-/* RESPONSIVE */
 @media (max-width: 1024px) {
     .hero {
         grid-template-columns: 1fr;
